@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EndouMame\PhpMonad\Result;
 
 use Closure;
-use Deprecated;
 use EmptyIterator;
 use NoDiscard;
 use Override;
@@ -249,12 +248,5 @@ final readonly class Err implements Result
     public function getIterator(): Traversable
     {
         return new EmptyIterator();
-    }
-
-    #[Deprecated]
-    #[Override]
-    public function match(Closure $okFn, Closure $errFn): mixed
-    {
-        return $errFn($this->value);
     }
 }

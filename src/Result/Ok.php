@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EndouMame\PhpMonad\Result;
 
 use Closure;
-use Deprecated;
 use NoDiscard;
 use Override;
 use RuntimeException;
@@ -243,12 +242,5 @@ final readonly class Ok implements Result
     public function getIterator(): Traversable
     {
         yield $this->value;
-    }
-
-    #[Deprecated]
-    #[Override]
-    public function match(Closure $okFn, Closure $errFn): mixed
-    {
-        return $okFn($this->value);
     }
 }

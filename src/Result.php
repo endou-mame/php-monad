@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EndouMame\PhpMonad;
 
 use Closure;
-use Deprecated;
 use JiriPudil\SealedClasses\Sealed;
 use RuntimeException;
 use Throwable;
@@ -200,16 +199,4 @@ interface Result extends Monad
      */
     public function err(): Option;
 
-    /**
-     * Applies one of two functions depending on whether the result is Ok or Err.
-     * Comparable to neverthrow's `match` method.
-     *
-     * @template U
-     * @template V
-     * @param  Closure(T): U $okFn  Function to apply if the Result is Ok
-     * @param  Closure(E): V $errFn Function to apply if the Result is Err
-     * @return U|V           The result of applying the appropriate function
-     */
-    #[Deprecated]
-    public function match(Closure $okFn, Closure $errFn): mixed;
 }

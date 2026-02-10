@@ -316,29 +316,6 @@ Err を Some に、Ok を None に変換します。
 public function err(): Option;
 ```
 
-## 廃止予定メソッド
-
-### match
-
-::: warning 廃止予定
-このメソッドは非推奨です。代わりに `mapOrElse` を使用してください。
-<!-- textlint-disable -->
-:::
-<!-- textlint-enable -->
-
-```php
-/**
- * @deprecated
- * @template U
- * @template V
- * @param Closure(T): U $okFn
- * @param Closure(E): V $errFn
- * @return U|V
- */
-#[Deprecated]
-public function match(Closure $okFn, Closure $errFn): mixed;
-```
-
 ## 関連項目
 
 - [Result ヘルパー関数](/api/functions#result-ヘルパー関数)
