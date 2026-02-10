@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace WizDevelop\PhpMonad\Result;
+namespace EndouMame\PhpMonad\Result;
 
 use Closure;
 use Throwable;
-use WizDevelop\PhpMonad\Option;
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Option;
+use EndouMame\PhpMonad\Result;
 
 /**
  * Return a `Result\Ok` Result containing `$value`.

@@ -73,8 +73,8 @@ Monad (interface)
 ### ヘルパー関数の使用法
 
 ```php
-use WizDevelop\PhpMonad\Option;
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Option;
+use EndouMame\PhpMonad\Result;
 
 // Option
 Option\some(42);

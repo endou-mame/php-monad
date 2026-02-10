@@ -32,7 +32,7 @@
             <visibility>public</visibility>
             <visibility>protected</visibility>
 
-            <default-package-name>WizDevelop\PhpMonad</default-package-name>
+            <default-package-name>EndouMame\PhpMonad</default-package-name>
 
             <markers>
                 <marker>TODO</marker>

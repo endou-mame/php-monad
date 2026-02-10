@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WizDevelop\PhpMonad\Tests\Unit;
+namespace EndouMame\PhpMonad\Tests\Unit;
 
 use BadFunctionCallException;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -11,9 +11,9 @@ use PHPUnit\Framework\Attributes\TestDox;
 use ReflectionClass;
 use ReflectionFunction;
 use ReflectionNamedType;
-use WizDevelop\PhpMonad\Monad;
-use WizDevelop\PhpMonad\Tests\Assert;
-use WizDevelop\PhpMonad\Tests\TestCase;
+use EndouMame\PhpMonad\Monad;
+use EndouMame\PhpMonad\Tests\Assert;
+use EndouMame\PhpMonad\Tests\TestCase;
 
 use function debug_backtrace;
 use function is_a;

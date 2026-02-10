@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace WizDevelop\PhpMonad;
+namespace EndouMame\PhpMonad;
 
 use Closure;
 use JiriPudil\SealedClasses\Sealed;
 use RuntimeException;
 use Throwable;
-use WizDevelop\PhpMonad\Option\None;
-use WizDevelop\PhpMonad\Option\Some;
+use EndouMame\PhpMonad\Option\None;
+use EndouMame\PhpMonad\Option\Some;
 
 /**
  * Option monad as a `Maybe monad`.

@@ -10,7 +10,7 @@ Result には 2 つの状態があります。
 - `Err<E>`: エラー値 `E` を保持している状態
 
 ```php
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Result;
 
 $success = Result\ok(42);        // Ok<int> - 成功
 $failure = Result\err('error');  // Err<string> - 失敗
@@ -23,7 +23,7 @@ $failure = Result\err('error');  // Err<string> - 失敗
 最も基本的な作成方法です。
 
 ```php
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Result;
 
 $success = Result\ok(42);           // Ok<int>
 $successBool = Result\ok();         // Ok<true>（引数省略時は true）
@@ -35,7 +35,7 @@ $failure = Result\err('error');     // Err<string>
 例外をスローする可能性のある処理を Result に変換します。
 
 ```php
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Result;
 
 $result = Result\fromThrowable(
     fn() => json_decode($json, flags: JSON_THROW_ON_ERROR),
@@ -314,7 +314,7 @@ $opt = $err->err();     // Some('error')
 `Result<Result<T, E>, E>` を `Result<T, E>` に平坦化します。
 
 ```php
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Result;
 
 $nested = Result\ok(Result\ok(42));
 Result\flatten($nested);  // Ok(42)
@@ -328,8 +328,8 @@ Result\flatten($nested2);  // Err('inner error')
 `Result<Option<T>, E>` を `Option<Result<T, E>>` に変換します。
 
 ```php
-use WizDevelop\PhpMonad\Result;
-use WizDevelop\PhpMonad\Option;
+use EndouMame\PhpMonad\Result;
+use EndouMame\PhpMonad\Option;
 
 Result\transpose(Result\ok(Option\some(42)));   // Some(Ok(42))
 Result\transpose(Result\ok(Option\none()));     // None
@@ -341,7 +341,7 @@ Result\transpose(Result\err('error'));          // Some(Err('error'))
 複数の Result を検証し、全て成功なら Ok、1 つでも失敗なら全エラーを Err で返します。
 
 ```php
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Result;
 
 // 全て成功
 $result = Result\combine(Result\ok(1), Result\ok(2), Result\ok(3));

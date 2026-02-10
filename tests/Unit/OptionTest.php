@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace WizDevelop\PhpMonad\Tests\Unit;
+namespace EndouMame\PhpMonad\Tests\Unit;
 
 use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
-use WizDevelop\PhpMonad\Monad;
-use WizDevelop\PhpMonad\Option;
+use EndouMame\PhpMonad\Monad;
+use EndouMame\PhpMonad\Option;
 
 /**
  * @extends MonadTestAbstract<Option>

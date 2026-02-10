@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace WizDevelop\PhpMonad\Tests\Unit\Option;
+namespace EndouMame\PhpMonad\Tests\Unit\Option;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
-use WizDevelop\PhpMonad\Option;
-use WizDevelop\PhpMonad\Tests\Assert;
-use WizDevelop\PhpMonad\Tests\Provider\ValueProvider;
-use WizDevelop\PhpMonad\Tests\TestCase;
+use EndouMame\PhpMonad\Option;
+use EndouMame\PhpMonad\Tests\Assert;
+use EndouMame\PhpMonad\Tests\Provider\ValueProvider;
+use EndouMame\PhpMonad\Tests\TestCase;
 
 #[TestDox('Option - IsTest')]
 #[CoversClass(Option::class)]

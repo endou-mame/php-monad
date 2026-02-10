@@ -1,5 +1,5 @@
 {
-    "name": "wiz-develop/php-monad",
+    "name": "endou-mame/php-monad",
     "description": "📦 Implemented the concept of monads in functional programming in PHP.",
     "require": {
         "php": ">=8.3"
@@ -11,12 +11,12 @@
             "src/functions.php"
         ],
         "psr-4": {
-            "WizDevelop\\PhpMonad\\": "src"
+            "EndouMame\\PhpMonad\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "WizDevelop\\PhpMonad\\Tests\\": "tests"
+            "EndouMame\\PhpMonad\\Tests\\": "tests"
         }
     },
     "authors": [

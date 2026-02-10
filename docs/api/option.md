@@ -5,7 +5,7 @@
 ## 定義
 
 ```php
-namespace WizDevelop\PhpMonad;
+namespace EndouMame\PhpMonad;
 
 /**
  * @template T

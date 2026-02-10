@@ -5,7 +5,7 @@
 ## 定義
 
 ```php
-namespace WizDevelop\PhpMonad;
+namespace EndouMame\PhpMonad;
 
 /**
  * @template T
@@ -42,8 +42,8 @@ public static function unit(mixed $value): self;
 #### 使用例
 
 ```php
-use WizDevelop\PhpMonad\Option\Some;
-use WizDevelop\PhpMonad\Result\Ok;
+use EndouMame\PhpMonad\Option\Some;
+use EndouMame\PhpMonad\Result\Ok;
 
 $some = Some::unit(42);  // Some<int>
 $ok = Ok::unit(42);      // Ok<int>
@@ -53,8 +53,8 @@ $ok = Ok::unit(42);      // Ok<int>
 通常は `unit` を直接呼び出すのではなく、ヘルパー関数を使用します。
 
 ```php
-use WizDevelop\PhpMonad\Option;
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Option;
+use EndouMame\PhpMonad\Result;
 
 $some = Option\some(42);
 $ok = Result\ok(42);
@@ -80,7 +80,7 @@ public function andThen(Closure $right): self;
 #### 使用例
 
 ```php
-use WizDevelop\PhpMonad\Option;
+use EndouMame\PhpMonad\Option;
 
 function double(int $x): Option {
     return Option\some($x * 2);
@@ -91,7 +91,7 @@ $result = Option\none()->andThen(double(...));   // None
 ```
 
 ```php
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Result;
 
 function divide(int $x): Result {
     return $x === 0 ? Result\err('ゼロ除算') : Result\ok(100 / $x);

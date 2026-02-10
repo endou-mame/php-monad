@@ -5,7 +5,7 @@ PHP Monad は、モナドを簡単に作成・操作するためのヘルパー�
 ## Option ヘルパー関数
 
 ```php
-use WizDevelop\PhpMonad\Option;
+use EndouMame\PhpMonad\Option;
 
 // 利用可能な関数
 Option\some($value);
@@ -176,7 +176,7 @@ function transpose(Option $option): Result
 #### 使用例
 
 ```php
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Result;
 
 Option\transpose(Option\some(Result\ok(42)));    // Ok(Some(42))
 Option\transpose(Option\some(Result\err('e')));  // Err('e')
@@ -186,7 +186,7 @@ Option\transpose(Option\none());                  // Ok(None)
 ## Result ヘルパー関数
 
 ```php
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Result;
 
 // 利用可能な関数
 Result\ok($value = true);
@@ -312,7 +312,7 @@ function transpose(Result $result): Option
 #### 使用例
 
 ```php
-use WizDevelop\PhpMonad\Option;
+use EndouMame\PhpMonad\Option;
 
 Result\transpose(Result\ok(Option\some(42)));   // Some(Ok(42))
 Result\transpose(Result\ok(Option\none()));     // None

@@ -52,12 +52,12 @@ export default withMermaid(
       },
 
       socialLinks: [
-        { icon: 'github', link: 'https://github.com/wiz-develop/php-monad' }
+        { icon: 'github', link: 'https://github.com/endou-mame/php-monad' }
       ],
 
       footer: {
         message: 'Released under the MIT License.',
-        copyright: 'Copyright © 2024 WizDevelop'
+        copyright: 'Copyright © 2024 EndouMame'
       },
 
       search: {

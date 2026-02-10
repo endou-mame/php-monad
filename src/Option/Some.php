@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace WizDevelop\PhpMonad\Option;
+namespace EndouMame\PhpMonad\Option;
 
 use Closure;
 use NoDiscard;
 use Override;
 use Throwable;
 use Traversable;
-use WizDevelop\PhpMonad\Option;
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Option;
+use EndouMame\PhpMonad\Result;
 
 /**
  * @template T

@@ -33,13 +33,13 @@ features:
 ### インストール
 
 ```bash
-composer require wiz-develop/php-monad
+composer require endou-mame/php-monad
 ```
 
 ### Option の使用例
 
 ```php
-use WizDevelop\PhpMonad\Option;
+use EndouMame\PhpMonad\Option;
 
 // 値を Option でラップ
 $value = Option\some(42);           // Some<int>
@@ -57,7 +57,7 @@ $result = $name
 ### Result の使用例
 
 ```php
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Result;
 
 // 成功 / 失敗を明示的に表現
 $success = Result\ok(42);           // Ok<int>

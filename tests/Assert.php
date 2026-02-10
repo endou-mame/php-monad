@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WizDevelop\PhpMonad\Tests;
+namespace EndouMame\PhpMonad\Tests;
 
 use PHPUnit\Framework\Assert as PHPUnitAssert;
 

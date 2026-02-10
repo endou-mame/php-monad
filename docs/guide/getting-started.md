@@ -24,7 +24,7 @@ if ($user !== null) {
 Option モナドを使うと、null チェックを型で表現できます。
 
 ```php
-use WizDevelop\PhpMonad\Option;
+use EndouMame\PhpMonad\Option;
 
 $upperName = Option\fromValue($user)
     ->map(fn($u) => $u->getName())
@@ -49,7 +49,7 @@ try {
 Result モナドを使うと、成功と失敗を型で表現できます。
 
 ```php
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Result;
 
 $result = Result\fromThrowable(
     fn() => json_decode($json, flags: JSON_THROW_ON_ERROR),
@@ -64,7 +64,7 @@ $result = Result\fromThrowable(
 Composer を使用してインストールします。
 
 ```bash
-composer require wiz-develop/php-monad
+composer require endou-mame/php-monad
 ```
 
 ## 要件
@@ -81,7 +81,7 @@ Option は「値の有無」を表現する型です。
 - `None`: 値がない状態
 
 ```php
-use WizDevelop\PhpMonad\Option;
+use EndouMame\PhpMonad\Option;
 
 $some = Option\some(42);    // Some<int>
 $none = Option\none();      // None
@@ -95,7 +95,7 @@ Result は「成功または失敗」を表現する型です。
 - `Err<E>`: エラー値を保持している状態
 
 ```php
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Result;
 
 $ok = Result\ok(42);            // Ok<int>
 $err = Result\err('error');     // Err<string>

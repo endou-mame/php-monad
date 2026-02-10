@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WizDevelop\PhpMonad\Tests\Unit\Option;
+namespace EndouMame\PhpMonad\Tests\Unit\Option;
 
 use Exception;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -10,11 +10,11 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use WizDevelop\PhpMonad\Option;
-use WizDevelop\PhpMonad\Tests\Assert;
+use EndouMame\PhpMonad\Option;
+use EndouMame\PhpMonad\Tests\Assert;
 
-use function WizDevelop\PhpMonad\Option\none;
-use function WizDevelop\PhpMonad\Option\some;
+use function EndouMame\PhpMonad\Option\none;
+use function EndouMame\PhpMonad\Option\some;
 
 #[TestDox('Option - UnwrapOrThrowTest')]
 #[CoversClass(Option::class)]

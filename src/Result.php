@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace WizDevelop\PhpMonad;
+namespace EndouMame\PhpMonad;
 
 use Closure;
 use Deprecated;
 use JiriPudil\SealedClasses\Sealed;
 use RuntimeException;
 use Throwable;
-use WizDevelop\PhpMonad\Result\Err;
-use WizDevelop\PhpMonad\Result\Ok;
+use EndouMame\PhpMonad\Result\Err;
+use EndouMame\PhpMonad\Result\Ok;
 
 /**
  * Result monad as a `Either monad`.

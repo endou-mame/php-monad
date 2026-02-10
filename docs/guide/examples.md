@@ -7,7 +7,7 @@
 ### 配列からの安全な値取得
 
 ```php
-use WizDevelop\PhpMonad\Option;
+use EndouMame\PhpMonad\Option;
 
 function getConfig(array $config, string $key): Option {
     return Option\fromValue($config[$key] ?? null);
@@ -22,7 +22,7 @@ $timeout = getConfig($config, 'database.timeout')
 ### ネストしたオブジェクトの安全なアクセス
 
 ```php
-use WizDevelop\PhpMonad\Option;
+use EndouMame\PhpMonad\Option;
 
 class User {
     public function __construct(
@@ -54,7 +54,7 @@ $city = Option\fromValue($user)
 ### HTTP リクエストの Result ラッピング
 
 ```php
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Result;
 
 function fetchUser(int $id): Result {
     return Result\fromThrowable(
@@ -81,8 +81,8 @@ $user = fetchUser(123)
 ### レスポンスキャッシュとフォールバック
 
 ```php
-use WizDevelop\PhpMonad\Option;
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Option;
+use EndouMame\PhpMonad\Result;
 
 function getCachedUser(int $id): Option {
     $cached = cache()->get("user:$id");
@@ -106,7 +106,7 @@ $user = getCachedUser($id)
 ### 単一フィールドの検証
 
 ```php
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Result;
 
 function validateEmail(string $email): Result {
     if (empty($email)) {
@@ -135,7 +135,7 @@ function validatePassword(string $password): Result {
 ### フォーム全体の検証
 
 ```php
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Result;
 
 function validateRegistrationForm(array $data): Result {
     return Result\combine(
@@ -163,7 +163,7 @@ if ($result->isErr()) {
 ### 検証とデータ変換の組み合わせ
 
 ```php
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Result;
 
 class RegistrationData {
     public function __construct(
@@ -201,8 +201,8 @@ function validateAndTransform(array $data): Result {
 ### リポジトリパターン
 
 ```php
-use WizDevelop\PhpMonad\Option;
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Option;
+use EndouMame\PhpMonad\Result;
 
 interface UserRepository {
     public function findById(int $id): Option;
@@ -240,7 +240,7 @@ class PdoUserRepository implements UserRepository {
 ### トランザクション処理
 
 ```php
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Result;
 
 function transferMoney(Account $from, Account $to, int $amount): Result {
     return Result\fromThrowable(
@@ -271,7 +271,7 @@ function transferMoney(Account $from, Account $to, int $amount): Result {
 ### 設定ファイルの読み込み
 
 ```php
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Result;
 
 function loadConfig(string $path): Result {
     if (!file_exists($path)) {
@@ -299,7 +299,7 @@ $config = loadConfig('/etc/app/config.json')
 ### ファイルの安全な書き込み
 
 ```php
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Result;
 
 function writeFile(string $path, string $content): Result {
     $dir = dirname($path);
@@ -323,7 +323,7 @@ function writeFile(string $path, string $content): Result {
 ### ユーザー登録サービス
 
 ```php
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Result;
 
 class UserRegistrationService {
     public function __construct(
@@ -380,7 +380,7 @@ class UserRegistrationService {
 ### データ変換パイプライン
 
 ```php
-use WizDevelop\PhpMonad\Option;
+use EndouMame\PhpMonad\Option;
 
 $result = Option\some($rawData)
     ->map(fn($data) => trim($data))
@@ -395,7 +395,7 @@ $result = Option\some($rawData)
 ### エラーリカバリーパイプライン
 
 ```php
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Result;
 
 $result = fetchFromPrimarySource($id)
     ->orElse(fn() => fetchFromSecondarySource($id))

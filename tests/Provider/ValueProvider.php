@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WizDevelop\PhpMonad\Tests\Provider;
+namespace EndouMame\PhpMonad\Tests\Provider;
 
 use DateTimeImmutable;
 

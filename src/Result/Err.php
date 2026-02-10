@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WizDevelop\PhpMonad\Result;
+namespace EndouMame\PhpMonad\Result;
 
 use Closure;
 use Deprecated;
@@ -12,8 +12,8 @@ use Override;
 use RuntimeException;
 use Throwable;
 use Traversable;
-use WizDevelop\PhpMonad\Option;
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Option;
+use EndouMame\PhpMonad\Result;
 
 use function serialize;
 use function sprintf;

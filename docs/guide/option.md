@@ -10,7 +10,7 @@ Option には 2 つの状態があります。
 - `None`: 値がない状態
 
 ```php
-use WizDevelop\PhpMonad\Option;
+use EndouMame\PhpMonad\Option;
 
 $some = Option\some(42);    // Some<int> - 値あり
 $none = Option\none();      // None - 値なし
@@ -23,7 +23,7 @@ $none = Option\none();      // None - 値なし
 最も基本的な作成方法です。
 
 ```php
-use WizDevelop\PhpMonad\Option;
+use EndouMame\PhpMonad\Option;
 
 $value = Option\some('hello');   // Some<string>
 $empty = Option\none();          // None
@@ -34,7 +34,7 @@ $empty = Option\none();          // None
 既存の値を Option に変換します。第 2 引数で「None とみなす値」を指定できます。
 
 ```php
-use WizDevelop\PhpMonad\Option;
+use EndouMame\PhpMonad\Option;
 
 // null は None になる（デフォルト）
 $opt1 = Option\fromValue($user);           // $user が null なら None、そうでなければ Some
@@ -51,7 +51,7 @@ $opt3 = Option\fromValue($name, '');       // $name が '' なら None
 関数の戻り値を Option に変換します。
 
 ```php
-use WizDevelop\PhpMonad\Option;
+use EndouMame\PhpMonad\Option;
 
 $opt = Option\of(fn() => getUser($id));
 
@@ -63,7 +63,7 @@ $opt = Option\of(fn() => getUser($id));
 関数を実行し、例外が発生した場合は None を返します。
 
 ```php
-use WizDevelop\PhpMonad\Option;
+use EndouMame\PhpMonad\Option;
 
 $date = Option\tryOf(
     fn() => new DateTimeImmutable($dateString),
@@ -310,7 +310,7 @@ Option\none()->xor(Option\none()); // None
 Some を Ok に、None を指定したエラーの Err に変換します。
 
 ```php
-use WizDevelop\PhpMonad\Option;
+use EndouMame\PhpMonad\Option;
 
 $opt = Option\some(42);
 $result = $opt->okOr('エラー');  // Ok(42)
@@ -335,7 +335,7 @@ $result = $none->okOrElse(fn() => createError());
 `Option<Option<T>>` を `Option<T>` に平坦化します。
 
 ```php
-use WizDevelop\PhpMonad\Option;
+use EndouMame\PhpMonad\Option;
 
 $nested = Option\some(Option\some(42));
 Option\flatten($nested);  // Some(42)
@@ -349,8 +349,8 @@ Option\flatten($nested2);  // None
 `Option<Result<T, E>>` を `Result<Option<T>, E>` に変換します。
 
 ```php
-use WizDevelop\PhpMonad\Option;
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Option;
+use EndouMame\PhpMonad\Result;
 
 Option\transpose(Option\some(Result\ok(42)));    // Ok(Some(42))
 Option\transpose(Option\some(Result\err('e')));  // Err('e')

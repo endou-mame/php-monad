@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace WizDevelop\PhpMonad\Option;
+namespace EndouMame\PhpMonad\Option;
 
 use Exception;
 use Throwable;
-use WizDevelop\PhpMonad\Option;
-use WizDevelop\PhpMonad\Result;
+use EndouMame\PhpMonad\Option;
+use EndouMame\PhpMonad\Result;
 
 use function is_a;
 

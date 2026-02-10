@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace WizDevelop\PhpMonad\Tests\Unit\Result;
+namespace EndouMame\PhpMonad\Tests\Unit\Result;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
 use RuntimeException;
 use Throwable;
-use WizDevelop\PhpMonad\Result;
-use WizDevelop\PhpMonad\Tests\Assert;
-use WizDevelop\PhpMonad\Tests\TestCase;
+use EndouMame\PhpMonad\Result;
+use EndouMame\PhpMonad\Tests\Assert;
+use EndouMame\PhpMonad\Tests\TestCase;
 
 #[TestDox('Result - fromThrowable メソッドのテスト')]
 #[CoversClass(Result::class)]
