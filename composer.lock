@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "10a5b63bb02b449281de495fc614b52f",
+    "content-hash": "559eacbde34a507b20287d5f8a785abf",
     "packages": [],
     "packages-dev": [
         {
@@ -296,6 +296,51 @@
                 }
             ],
             "time": "2024-05-06T16:37:16+00:00"
+        },
+        {
+            "name": "endou-mame/php-cs-fixer-config",
+            "version": "v8.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/endou-mame/php-cs-fixer-config.git",
+                "reference": "0a070146cbadc9522f5ee8fed6d8c160d8a129e0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/endou-mame/php-cs-fixer-config/zipball/0a070146cbadc9522f5ee8fed6d8c160d8a129e0",
+                "reference": "0a070146cbadc9522f5ee8fed6d8c160d8a129e0",
+                "shasum": ""
+            },
+            "require": {
+                "friendsofphp/php-cs-fixer": "^3.84",
+                "php": "^8.4"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1.12",
+                "phpunit/php-code-coverage": "^11.0",
+                "phpunit/phpunit": "^11.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "EndouMame\\PhpCsFixerConfig\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Shigenao Kakiuchi",
+                    "email": "kakiuchi-shigenao@wiznet.co.jp"
+                }
+            ],
+            "description": "🛠 php-cs-fixer configuration for endou-mame.",
+            "support": {
+                "source": "https://github.com/endou-mame/php-cs-fixer-config/tree/v8.4.0"
+            },
+            "time": "2026-02-11T08:53:58+00:00"
         },
         {
             "name": "evenement/evenement",
@@ -4470,52 +4515,6 @@
                 }
             ],
             "time": "2024-03-03T12:36:25+00:00"
-        },
-        {
-            "name": "wiz-develop/php-cs-fixer-config",
-            "version": "v8.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/wiz-develop/php-cs-fixer-config.git",
-                "reference": "848d71f3251801a1fe8f9015b88bdf356998d1e5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/wiz-develop/php-cs-fixer-config/zipball/848d71f3251801a1fe8f9015b88bdf356998d1e5",
-                "reference": "848d71f3251801a1fe8f9015b88bdf356998d1e5",
-                "shasum": ""
-            },
-            "require": {
-                "friendsofphp/php-cs-fixer": "^3.84",
-                "php": "^8.3"
-            },
-            "require-dev": {
-                "phpstan/phpstan": "^1.12",
-                "phpunit/php-code-coverage": "^11.0",
-                "phpunit/phpunit": "^11.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "WizDevelop\\PhpCsFixerConfig\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Shigenao Kakiuchi",
-                    "email": "kakiuchi-shigenao@wiznet.co.jp"
-                }
-            ],
-            "description": "🛠 php-cs-fixer configuration for wiz-develop.",
-            "support": {
-                "issues": "https://github.com/wiz-develop/php-cs-fixer-config/issues",
-                "source": "https://github.com/wiz-develop/php-cs-fixer-config/tree/v8.4.0"
-            },
-            "time": "2025-07-16T08:44:26+00:00"
         }
     ],
     "aliases": [],
@@ -4527,5 +4526,5 @@
         "php": ">=8.3"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }

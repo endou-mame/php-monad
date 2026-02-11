@@ -15,7 +15,7 @@ $finder = \PhpCsFixer\Finder::create()
     ])
     ->in(__DIR__);
 
-$config = new \WizDevelop\PhpCsFixerConfig\Config(allowRisky: true);
+$config = new \EndouMame\PhpCsFixerConfig\Config(allowRisky: true);
 
 // custom rules
 return $config
