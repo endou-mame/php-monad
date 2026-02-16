@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "559eacbde34a507b20287d5f8a785abf",
+    "content-hash": "e9b3ec166d2bd9265d404c001a3e37af",
     "packages": [],
     "packages-dev": [
         {
@@ -295,21 +295,21 @@
         },
         {
             "name": "endou-mame/php-cs-fixer-config",
-            "version": "v8.5.1",
+            "version": "v8.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endou-mame/php-cs-fixer-config.git",
-                "reference": "8ba7ab05f1c5203b4abcff8990d2eab88466a2ff"
+                "reference": "25b14f2d1e0797be40248eeda8d68367471b9f47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endou-mame/php-cs-fixer-config/zipball/8ba7ab05f1c5203b4abcff8990d2eab88466a2ff",
-                "reference": "8ba7ab05f1c5203b4abcff8990d2eab88466a2ff",
+                "url": "https://api.github.com/repos/endou-mame/php-cs-fixer-config/zipball/25b14f2d1e0797be40248eeda8d68367471b9f47",
+                "reference": "25b14f2d1e0797be40248eeda8d68367471b9f47",
                 "shasum": ""
             },
             "require": {
                 "friendsofphp/php-cs-fixer": "^3.84",
-                "php": "^8.5"
+                "php": "^8.4"
             },
             "require-dev": {
                 "phpstan/phpstan": "^1.12",
@@ -335,9 +335,9 @@
             "description": "🛠 php-cs-fixer configuration for endou-mame.",
             "support": {
                 "issues": "https://github.com/endou-mame/php-cs-fixer-config/issues",
-                "source": "https://github.com/endou-mame/php-cs-fixer-config/tree/v8.5.1"
+                "source": "https://github.com/endou-mame/php-cs-fixer-config/tree/v8.4.4"
             },
-            "time": "2026-02-15T12:34:22+00:00"
+            "time": "2026-02-16T14:07:12+00:00"
         },
         {
             "name": "evenement/evenement",
