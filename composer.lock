@@ -294,16 +294,16 @@
             "time": "2024-05-06T16:37:16+00:00"
         },
         {
-            "name": "endou-mame/php-cs-fixer-config",
+            "name": "endoumame/php-cs-fixer-config",
             "version": "v8.4.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/endou-mame/php-cs-fixer-config.git",
+                "url": "https://github.com/endoumame/php-cs-fixer-config.git",
                 "reference": "25b14f2d1e0797be40248eeda8d68367471b9f47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endou-mame/php-cs-fixer-config/zipball/25b14f2d1e0797be40248eeda8d68367471b9f47",
+                "url": "https://api.github.com/repos/endoumame/php-cs-fixer-config/zipball/25b14f2d1e0797be40248eeda8d68367471b9f47",
                 "reference": "25b14f2d1e0797be40248eeda8d68367471b9f47",
                 "shasum": ""
             },
@@ -329,13 +329,13 @@
             "authors": [
                 {
                     "name": "Kakiuchi Shigenao",
-                    "email": "87973394+endou-mame@users.noreply.github.com"
+                    "email": "87973394+endoumame@users.noreply.github.com"
                 }
             ],
-            "description": "🛠 php-cs-fixer configuration for endou-mame.",
+            "description": "🛠 php-cs-fixer configuration for endoumame.",
             "support": {
-                "issues": "https://github.com/endou-mame/php-cs-fixer-config/issues",
-                "source": "https://github.com/endou-mame/php-cs-fixer-config/tree/v8.4.4"
+                "issues": "https://github.com/endoumame/php-cs-fixer-config/issues",
+                "source": "https://github.com/endoumame/php-cs-fixer-config/tree/v8.4.4"
             },
             "time": "2026-02-16T14:07:12+00:00"
         },

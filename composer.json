@@ -1,5 +1,5 @@
 {
-    "name": "endou-mame/php-monad",
+    "name": "endoumame/php-monad",
     "description": "📦 Implemented the concept of monads in functional programming in PHP.",
     "require": {
         "php": ">=8.3"
@@ -22,12 +22,12 @@
     "authors": [
         {
             "name": "Kakiuchi Shigenao",
-            "email": "87973394+endou-mame@users.noreply.github.com"
+            "email": "87973394+endoumame@users.noreply.github.com"
         }
     ],
     "minimum-stability": "stable",
     "require-dev": {
-        "endou-mame/php-cs-fixer-config": "~8.4.4",
+        "endoumame/php-cs-fixer-config": "~8.4.4",
         "phpstan/phpstan": "^1.12",
         "phpunit/php-code-coverage": "^11.0",
         "phpunit/phpunit": "^11.3",

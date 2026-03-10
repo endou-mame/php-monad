@@ -64,7 +64,7 @@ $result = Result\fromThrowable(
 Composer を使用してインストールします。
 
 ```bash
-composer require endou-mame/php-monad
+composer require endoumame/php-monad
 ```
 
 ## 要件

@@ -33,7 +33,7 @@ features:
 ### インストール
 
 ```bash
-composer require endou-mame/php-monad
+composer require endoumame/php-monad
 ```
 
 ### Option の使用例

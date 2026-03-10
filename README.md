@@ -1,17 +1,17 @@
 # PHP Monad
 
-[![Packagist Version](https://img.shields.io/packagist/v/endou-mame/php-monad)](https://packagist.org/packages/endou-mame/php-monad)
-[![PHP Version](https://img.shields.io/packagist/php-v/endou-mame/php-monad)](https://packagist.org/packages/endou-mame/php-monad)
-[![PHPStan](https://github.com/endou-mame/php-monad/actions/workflows/phpstan.yml/badge.svg)](https://github.com/endou-mame/php-monad/actions/workflows/phpstan.yml)
-[![Documentation](https://github.com/endou-mame/php-monad/actions/workflows/deploy-docs.yml/badge.svg)](https://github.com/endou-mame/php-monad/actions/workflows/deploy-docs.yml)
-[![License](https://img.shields.io/packagist/l/endou-mame/php-monad)](https://github.com/endou-mame/php-monad/blob/main/LICENSE)
+[![Packagist Version](https://img.shields.io/packagist/v/endoumame/php-monad)](https://packagist.org/packages/endoumame/php-monad)
+[![PHP Version](https://img.shields.io/packagist/php-v/endoumame/php-monad)](https://packagist.org/packages/endoumame/php-monad)
+[![PHPStan](https://github.com/endoumame/php-monad/actions/workflows/phpstan.yml/badge.svg)](https://github.com/endoumame/php-monad/actions/workflows/phpstan.yml)
+[![Documentation](https://github.com/endoumame/php-monad/actions/workflows/deploy-docs.yml/badge.svg)](https://github.com/endoumame/php-monad/actions/workflows/deploy-docs.yml)
+[![License](https://img.shields.io/packagist/l/endoumame/php-monad)](https://github.com/endoumame/php-monad/blob/main/LICENSE)
 
 関数型プログラミングのモナド概念を PHP で実装したライブラリです。Rust の `Option` / `Result` 型に着想を得ています。
 
 ## インストール
 
 ```bash
-composer require endou-mame/php-monad
+composer require endoumame/php-monad
 ```
 
 ## 使用例
@@ -42,7 +42,7 @@ $data = $result->map(fn($d) => $d['key'])->unwrapOr(null);
 
 ## ドキュメント
 
-詳細なガイドと API リファレンスは [ドキュメントサイト](https://endou-mame.github.io/php-monad/) を参照してください。
+詳細なガイドと API リファレンスは [ドキュメントサイト](https://endoumame.github.io/php-monad/) を参照してください。
 
 ## 要件
 

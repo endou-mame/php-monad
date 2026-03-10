@@ -52,7 +52,7 @@ export default withMermaid(
       },
 
       socialLinks: [
-        { icon: 'github', link: 'https://github.com/endou-mame/php-monad' }
+        { icon: 'github', link: 'https://github.com/endoumame/php-monad' }
       ],
 
       footer: {

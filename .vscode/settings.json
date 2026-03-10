@@ -29,7 +29,7 @@
         "phpunit.xml.dist"
     ],
     // githubPullRequests settings
-    "githubPullRequests.assignCreated": "endou-mame",
+    "githubPullRequests.assignCreated": "endoumame",
     // vscode visualize settings
     "todohighlight.defaultStyle": {
         "border": "1px solid #FFF",
