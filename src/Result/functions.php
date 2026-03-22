@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace EndouMame\PhpMonad\Result;
 
 use Closure;
-use Throwable;
 use EndouMame\PhpMonad\Option;
 use EndouMame\PhpMonad\Result;
+use Throwable;
 
 /**
  * Return a `Result\Ok` Result containing `$value`.
@@ -93,7 +93,7 @@ function transpose(Result $result): Option
 /**
  * @template T
  * @template E
- * @param  Result<covariant T, covariant E>                  ...$results
+ * @param  Result<covariant T, covariant E> ...$results
  * @return Result<bool, non-empty-list<E>>
  */
 function combine(Result ...$results): Result

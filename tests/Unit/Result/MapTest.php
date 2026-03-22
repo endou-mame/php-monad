@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace EndouMame\PhpMonad\Tests\Unit\Result;
 
+use EndouMame\PhpMonad\Result;
+use EndouMame\PhpMonad\Tests\Assert;
+use EndouMame\PhpMonad\Tests\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
-use EndouMame\PhpMonad\Result;
-use EndouMame\PhpMonad\Tests\Assert;
-use EndouMame\PhpMonad\Tests\TestCase;
 
 #[TestDox('Result - MapTest')]
 #[CoversClass(Result::class)]
@@ -26,7 +26,7 @@ final class MapTest extends TestCase
      */
     #[Test]
     #[TestDox('map test')]
-    #[DataProvider('mapMatrix')]
+    #[DataProvider('provideMapCases')]
     public function map(Result $result, mixed $mapResult, Result $expected, array $expectedCalls): void
     {
         $calls = [];
@@ -44,6 +44,31 @@ final class MapTest extends TestCase
     }
 
     /**
+     * @return iterable<array{
+     *   Result\Ok<int>|Result\Err<null>,
+     *   string,
+     *   Result\Ok<string>|Result\Err<null>,
+     *   array<int>
+     * }>
+     */
+    public static function provideMapCases(): iterable
+    {
+        yield 'err' => [
+            Result\err(null),
+            'fish',
+            Result\err(null),
+            [],
+        ];
+
+        yield 'ok' => [
+            Result\ok(42),
+            'fish',
+            Result\ok('fish'),
+            [42],
+        ];
+    }
+
+    /**
      * @template T
      * @template U
      * @param Result<T, null> $result
@@ -53,7 +78,7 @@ final class MapTest extends TestCase
      */
     #[Test]
     #[TestDox('mapErr test')]
-    #[DataProvider('mapErrMatrix')]
+    #[DataProvider('provideMapErrCases')]
     public function mapErr(Result $result, mixed $mapResult, Result $expected, array $expectedCalls): void
     {
         $calls = [];
@@ -71,6 +96,31 @@ final class MapTest extends TestCase
     }
 
     /**
+     * @return iterable<array{
+     *   Result\Ok<null>|Result\Err<int>,
+     *   string,
+     *   Result\Ok<null>|Result\Err<string>,
+     *   array<int>
+     * }>
+     */
+    public static function provideMapErrCases(): iterable
+    {
+        yield 'ok' => [
+            Result\ok(null),
+            'fish',
+            Result\ok(null),
+            [],
+        ];
+
+        yield 'err' => [
+            Result\err(42),
+            'fish',
+            Result\err('fish'),
+            [42],
+        ];
+    }
+
+    /**
      * @template T
      * @template U
      * @param Result<T, null> $result
@@ -81,7 +131,7 @@ final class MapTest extends TestCase
      */
     #[Test]
     #[TestDox('mapOr test')]
-    #[DataProvider('mapOrMatrix')]
+    #[DataProvider('provideMapOrCases')]
     public function mapOr(
         Result $result,
         mixed $mapResult,
@@ -107,62 +157,12 @@ final class MapTest extends TestCase
      * @return iterable<array{
      *   Result\Ok<int>|Result\Err<null>,
      *   string,
-     *   Result\Ok<string>|Result\Err<null>,
-     *   array<int>
-     * }>
-     */
-    public static function mapMatrix(): iterable
-    {
-        yield 'err' => [
-            Result\err(null),
-            'fish',
-            Result\err(null),
-            [],
-        ];
-
-        yield 'ok' => [
-            Result\ok(42),
-            'fish',
-            Result\ok('fish'),
-            [42],
-        ];
-    }
-
-    /**
-     * @return iterable<array{
-     *   Result\Ok<null>|Result\Err<int>,
-     *   string,
-     *   Result\Ok<null>|Result\Err<string>,
-     *   array<int>
-     * }>
-     */
-    public static function mapErrMatrix(): iterable
-    {
-        yield 'ok' => [
-            Result\ok(null),
-            'fish',
-            Result\ok(null),
-            [],
-        ];
-
-        yield 'err' => [
-            Result\err(42),
-            'fish',
-            Result\err('fish'),
-            [42],
-        ];
-    }
-
-    /**
-     * @return iterable<array{
-     *   Result\Ok<int>|Result\Err<null>,
-     *   string,
      *   string,
      *   string,
      *   array<int>
      * }>
      */
-    public static function mapOrMatrix(): iterable
+    public static function provideMapOrCases(): iterable
     {
         yield 'err' => [
             Result\err(null),

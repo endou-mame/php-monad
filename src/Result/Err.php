@@ -6,13 +6,13 @@ namespace EndouMame\PhpMonad\Result;
 
 use Closure;
 use EmptyIterator;
+use EndouMame\PhpMonad\Option;
+use EndouMame\PhpMonad\Result;
 use NoDiscard;
 use Override;
 use RuntimeException;
 use Throwable;
 use Traversable;
-use EndouMame\PhpMonad\Option;
-use EndouMame\PhpMonad\Result;
 
 use function serialize;
 use function sprintf;

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace EndouMame\PhpMonad\Tests\Unit\Option;
 
+use EndouMame\PhpMonad\Option;
+use EndouMame\PhpMonad\Tests\Assert;
+use EndouMame\PhpMonad\Tests\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
-use EndouMame\PhpMonad\Option;
-use EndouMame\PhpMonad\Tests\Assert;
-use EndouMame\PhpMonad\Tests\TestCase;
 
 #[TestDox('Option - FilterTest')]
 #[CoversClass(Option::class)]
@@ -23,7 +23,7 @@ final class FilterTest extends TestCase
      */
     #[Test]
     #[TestDox('filter test')]
-    #[DataProvider('filterMatrix')]
+    #[DataProvider('provideFilterCases')]
     public function filter(Option $option, bool $filterResult, bool $expectNone, array $expectedCalls): void
     {
         $calls = [];
@@ -51,7 +51,7 @@ final class FilterTest extends TestCase
      *   array<int>
      * }>
      */
-    public static function filterMatrix(): iterable
+    public static function provideFilterCases(): iterable
     {
         yield 'none-true' => [
             Option\none(),

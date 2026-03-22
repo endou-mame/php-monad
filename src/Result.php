@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace EndouMame\PhpMonad;
 
 use Closure;
+use EndouMame\PhpMonad\Result\Err;
+use EndouMame\PhpMonad\Result\Ok;
 use JiriPudil\SealedClasses\Sealed;
 use RuntimeException;
 use Throwable;
-use EndouMame\PhpMonad\Result\Err;
-use EndouMame\PhpMonad\Result\Ok;
 
 /**
  * Result monad as a `Either monad`.
@@ -198,5 +198,4 @@ interface Result extends Monad
      * @return Option<E>
      */
     public function err(): Option;
-
 }

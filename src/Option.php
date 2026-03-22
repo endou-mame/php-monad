@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace EndouMame\PhpMonad;
 
 use Closure;
+use EndouMame\PhpMonad\Option\None;
+use EndouMame\PhpMonad\Option\Some;
 use JiriPudil\SealedClasses\Sealed;
 use RuntimeException;
 use Throwable;
-use EndouMame\PhpMonad\Option\None;
-use EndouMame\PhpMonad\Option\Some;
 
 /**
  * Option monad as a `Maybe monad`.

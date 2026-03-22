@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace EndouMame\PhpMonad\Tests\Unit\Result;
 
+use EndouMame\PhpMonad\Result;
+use EndouMame\PhpMonad\Tests\Assert;
 use Exception;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use EndouMame\PhpMonad\Result;
-use EndouMame\PhpMonad\Tests\Assert;
 
 use function EndouMame\PhpMonad\Result\err;
 use function EndouMame\PhpMonad\Result\ok;

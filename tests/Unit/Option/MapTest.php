@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace EndouMame\PhpMonad\Tests\Unit\Option;
 
+use EndouMame\PhpMonad\Option;
+use EndouMame\PhpMonad\Tests\Assert;
+use EndouMame\PhpMonad\Tests\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
-use EndouMame\PhpMonad\Option;
-use EndouMame\PhpMonad\Tests\Assert;
-use EndouMame\PhpMonad\Tests\TestCase;
 
 #[TestDox('Option - MapTest')]
 #[CoversClass(Option::class)]
@@ -26,7 +26,7 @@ final class MapTest extends TestCase
      */
     #[Test]
     #[TestDox('map test')]
-    #[DataProvider('mapMatrix')]
+    #[DataProvider('provideMapCases')]
     public function map(Option $option, mixed $mapResult, Option $expected, array $expectedCalls): void
     {
         $calls = [];
@@ -43,6 +43,34 @@ final class MapTest extends TestCase
         Assert::assertSame($expectedCalls, $calls);
     }
 
+    // -------------------------------------------------------------------------
+    // Data provider
+    // -------------------------------------------------------------------------
+    /**
+     * @return iterable<array{
+     *   Option<int>,
+     *   mixed,
+     *   Option<string>,
+     *   array<mixed>
+     * }>
+     */
+    public static function provideMapCases(): iterable
+    {
+        yield 'none' => [
+            Option\none(),
+            'fish',
+            Option\none(),
+            [],
+        ];
+
+        yield 'some' => [
+            Option\some(42),
+            'fish',
+            Option\some('fish'),
+            [42],
+        ];
+    }
+
     /**
      * @template T
      * @template U
@@ -54,7 +82,7 @@ final class MapTest extends TestCase
      */
     #[Test]
     #[TestDox('mapOr test')]
-    #[DataProvider('mapOrMatrix')]
+    #[DataProvider('provideMapOrCases')]
     public function mapOr(
         Option $option,
         mixed $mapResult,
@@ -76,34 +104,6 @@ final class MapTest extends TestCase
         Assert::assertSame($expectedCalls, $calls);
     }
 
-    // -------------------------------------------------------------------------
-    // Data provider
-    // -------------------------------------------------------------------------
-    /**
-     * @return iterable<array{
-     *   Option<int>,
-     *   mixed,
-     *   Option<string>,
-     *   array<mixed>
-     * }>
-     */
-    public static function mapMatrix(): iterable
-    {
-        yield 'none' => [
-            Option\none(),
-            'fish',
-            Option\none(),
-            [],
-        ];
-
-        yield 'some' => [
-            Option\some(42),
-            'fish',
-            Option\some('fish'),
-            [42],
-        ];
-    }
-
     /**
      * @return iterable<array{
      *   Option<int>,
@@ -113,7 +113,7 @@ final class MapTest extends TestCase
      *   array<mixed>
      * }>
      */
-    public static function mapOrMatrix(): iterable
+    public static function provideMapOrCases(): iterable
     {
         yield 'none' => [
             Option\none(),

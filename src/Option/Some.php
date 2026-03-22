@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace EndouMame\PhpMonad\Option;
 
 use Closure;
+use EndouMame\PhpMonad\Option;
+use EndouMame\PhpMonad\Result;
 use NoDiscard;
 use Override;
 use Throwable;
 use Traversable;
-use EndouMame\PhpMonad\Option;
-use EndouMame\PhpMonad\Result;
 
 /**
  * @template T

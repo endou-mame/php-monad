@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace EndouMame\PhpMonad\Option;
 
-use Exception;
-use Throwable;
 use EndouMame\PhpMonad\Option;
 use EndouMame\PhpMonad\Result;
+use Exception;
+use Throwable;
 
 use function is_a;
 
