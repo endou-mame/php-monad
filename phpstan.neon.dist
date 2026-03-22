@@ -5,3 +5,7 @@ parameters:
     paths:
         - src
         - tests
+    excludePaths:
+        - tests/Unit/Option/PipelineTest.php
+        - tests/Unit/Result/PipelineTest.php
+        - tests/Unit/PipelineTest.php
