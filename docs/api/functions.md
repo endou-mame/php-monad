@@ -183,6 +183,222 @@ Option\transpose(Option\some(Result\err('e')));  // Err('e')
 Option\transpose(Option\none());                  // Ok(None)
 ```
 
+## Option パイプライン関数 {#option-pipeline}
+
+PHP 8.5 のパイプライン演算子（`|>`）で使用するための関数群です。
+各関数は引数を受け取り、`Option` を処理する `Closure` を返します。
+
+```php
+use EndouMame\PhpMonad\Option;
+
+// 利用可能な関数
+Option\map($callback);
+Option\andThen($callback);
+Option\orElse($callback);
+Option\filter($predicate);
+Option\inspect($callback);
+Option\unwrapOr($default);
+Option\unwrapOrElse($callback);
+Option\expect($message);
+Option\okOr($err);
+Option\okOrElse($err);
+```
+
+### map
+
+Some の値を変換する `Closure` を返します。
+
+```php
+/**
+ * @param Closure(mixed): U $callback
+ * @return Closure(Option): Option<U>
+ */
+function map(Closure $callback): Closure
+```
+
+#### 使用例
+
+```php
+$result = Option\some(5)
+    |> Option\map(fn($x) => $x * 2);  // Some(10)
+
+Option\none()
+    |> Option\map(fn($x) => $x * 2);  // None
+```
+
+### andThen
+
+Option を返す関数でチェーンする `Closure` を返します。
+
+```php
+/**
+ * @param Closure(mixed): Option<U> $callback
+ * @return Closure(Option): Option<U>
+ */
+function andThen(Closure $callback): Closure
+```
+
+#### 使用例
+
+```php
+$result = Option\some(5)
+    |> Option\andThen(fn($x) => $x > 0 ? Option\some($x) : Option\none());
+// Some(5)
+```
+
+### orElse
+
+None の場合に代替の Option を返す `Closure` を返します。
+
+```php
+/**
+ * @param Closure(): Option<U> $callback
+ * @return Closure(Option): Option
+ */
+function orElse(Closure $callback): Closure
+```
+
+#### 使用例
+
+```php
+$result = Option\none()
+    |> Option\orElse(fn() => Option\some(42));  // Some(42)
+```
+
+### filter
+
+述語を満たさない場合は None にする `Closure` を返します。
+
+```php
+/**
+ * @param Closure(mixed): bool $predicate
+ * @return Closure(Option): Option
+ */
+function filter(Closure $predicate): Closure
+```
+
+#### 使用例
+
+```php
+$result = Option\some(10)
+    |> Option\filter(fn($x) => $x > 5);   // Some(10)
+
+$result = Option\some(3)
+    |> Option\filter(fn($x) => $x > 5);   // None
+```
+
+### inspect
+
+Some の値で副作用を実行し、Option をそのまま返す `Closure` を返します。
+
+```php
+/**
+ * @param Closure(mixed): mixed $callback
+ * @return Closure(Option): Option
+ */
+function inspect(Closure $callback): Closure
+```
+
+#### 使用例
+
+```php
+$result = Option\some(42)
+    |> Option\inspect(fn($x) => logger()->info("値: $x"))
+    |> Option\map(fn($x) => $x * 2);
+```
+
+### unwrapOr
+
+Some の値またはデフォルト値を返す `Closure` を返します。
+
+```php
+/**
+ * @param U $default
+ * @return Closure(Option): mixed
+ */
+function unwrapOr(mixed $default): Closure
+```
+
+#### 使用例
+
+```php
+Option\some(42) |> Option\unwrapOr(0);  // 42
+Option\none()   |> Option\unwrapOr(0);  // 0
+```
+
+### unwrapOrElse
+
+Some の値またはデフォルト値を遅延評価で返す `Closure` を返します。
+
+```php
+/**
+ * @param Closure(): mixed $callback
+ * @return Closure(Option): mixed
+ */
+function unwrapOrElse(Closure $callback): Closure
+```
+
+#### 使用例
+
+```php
+Option\none() |> Option\unwrapOrElse(fn() => expensiveDefault());
+```
+
+### expect
+
+Some の値を返すか、メッセージ付きの例外をスローする `Closure` を返します。
+
+```php
+/**
+ * @return Closure(Option): mixed
+ */
+function expect(string $message): Closure
+```
+
+#### 使用例
+
+```php
+Option\some(42) |> Option\expect('値が必要です');  // 42
+Option\none()   |> Option\expect('値が必要です');  // RuntimeException
+```
+
+### okOr
+
+Option を Result に変換する `Closure` を返します。
+
+```php
+/**
+ * @param E $err
+ * @return Closure(Option): Result<mixed, E>
+ */
+function okOr(mixed $err): Closure
+```
+
+#### 使用例
+
+```php
+Option\some(42) |> Option\okOr('not found');  // Ok(42)
+Option\none()   |> Option\okOr('not found');  // Err('not found')
+```
+
+### okOrElse
+
+Option を Result に変換する `Closure` を返します。エラー値は遅延評価です。
+
+```php
+/**
+ * @param Closure(): E $err
+ * @return Closure(Option): Result<mixed, E>
+ */
+function okOrElse(Closure $err): Closure
+```
+
+#### 使用例
+
+```php
+Option\none() |> Option\okOrElse(fn() => new NotFoundException());
+```
+
 ## Result ヘルパー関数
 
 ```php
@@ -351,6 +567,200 @@ $result = Result\combine(
 
 $result->isErr();  // true
 $result->unwrapErr();  // ['エラー1', 'エラー2']
+```
+
+## Result パイプライン関数 {#result-pipeline}
+
+PHP 8.5 のパイプライン演算子（`|>`）で使用するための関数群です。
+各関数は引数を受け取り、`Result` を処理する `Closure` を返します。
+
+```php
+use EndouMame\PhpMonad\Result;
+
+// 利用可能な関数
+Result\map($callback);
+Result\mapErr($callback);
+Result\andThen($callback);
+Result\orElse($callback);
+Result\inspect($callback);
+Result\inspectErr($callback);
+Result\unwrapOr($default);
+Result\unwrapOrElse($callback);
+Result\expect($message);
+```
+
+### map
+
+Ok の値を変換する `Closure` を返します。
+
+```php
+/**
+ * @param Closure(mixed): U $callback
+ * @return Closure(Result): Result<U, mixed>
+ */
+function map(Closure $callback): Closure
+```
+
+#### 使用例
+
+```php
+$result = Result\ok(5)
+    |> Result\map(fn($x) => $x * 2);  // Ok(10)
+
+Result\err('error')
+    |> Result\map(fn($x) => $x * 2);  // Err('error')
+```
+
+### mapErr
+
+Err の値を変換する `Closure` を返します。
+
+```php
+/**
+ * @param Closure(mixed): F $callback
+ * @return Closure(Result): Result<mixed, F>
+ */
+function mapErr(Closure $callback): Closure
+```
+
+#### 使用例
+
+```php
+$result = Result\err('not found')
+    |> Result\mapErr(fn($e) => strtoupper($e));  // Err('NOT FOUND')
+```
+
+### andThen
+
+Result を返す関数でチェーンする `Closure` を返します。
+
+```php
+/**
+ * @param Closure(mixed): Result<U, F> $callback
+ * @return Closure(Result): Result<U, mixed>
+ */
+function andThen(Closure $callback): Closure
+```
+
+#### 使用例
+
+```php
+$result = Result\ok(10)
+    |> Result\andThen(fn($x) => $x > 0 ? Result\ok($x) : Result\err('負の値'));
+// Ok(10)
+```
+
+### orElse
+
+Err からリカバリする `Closure` を返します。
+
+```php
+/**
+ * @param Closure(mixed): Result<mixed, F> $callback
+ * @return Closure(Result): Result<mixed, F>
+ */
+function orElse(Closure $callback): Closure
+```
+
+#### 使用例
+
+```php
+$result = Result\err('primary failed')
+    |> Result\orElse(fn($e) => Result\ok('fallback'));  // Ok('fallback')
+```
+
+### inspect
+
+Ok の値で副作用を実行し、Result をそのまま返す `Closure` を返します。
+
+```php
+/**
+ * @param Closure(mixed): mixed $callback
+ * @return Closure(Result): Result
+ */
+function inspect(Closure $callback): Closure
+```
+
+#### 使用例
+
+```php
+$result = Result\ok(42)
+    |> Result\inspect(fn($x) => logger()->info("成功: $x"))
+    |> Result\map(fn($x) => $x * 2);
+```
+
+### inspectErr
+
+Err の値で副作用を実行し、Result をそのまま返す `Closure` を返します。
+
+```php
+/**
+ * @param Closure(mixed): mixed $callback
+ * @return Closure(Result): Result
+ */
+function inspectErr(Closure $callback): Closure
+```
+
+#### 使用例
+
+```php
+$result = Result\err('error')
+    |> Result\inspectErr(fn($e) => logger()->error("失敗: $e"));
+```
+
+### unwrapOr
+
+Ok の値またはデフォルト値を返す `Closure` を返します。
+
+```php
+/**
+ * @param U $default
+ * @return Closure(Result): mixed
+ */
+function unwrapOr(mixed $default): Closure
+```
+
+#### 使用例
+
+```php
+Result\ok(42)       |> Result\unwrapOr(0);  // 42
+Result\err('error') |> Result\unwrapOr(0);  // 0
+```
+
+### unwrapOrElse
+
+Ok の値またはデフォルト値を遅延評価で返す `Closure` を返します。
+
+```php
+/**
+ * @param Closure(mixed): mixed $callback
+ * @return Closure(Result): mixed
+ */
+function unwrapOrElse(Closure $callback): Closure
+```
+
+#### 使用例
+
+```php
+Result\err('error') |> Result\unwrapOrElse(fn($e) => "recovered: $e");
+```
+
+### expect
+
+Ok の値を返すか、メッセージ付きの例外をスローする `Closure` を返します。
+
+```php
+/**
+ * @return Closure(Result): mixed
+ */
+function expect(string $message): Closure
+```
+
+#### 使用例
+
+```php
+Result\ok(42)       |> Result\expect('値が必要です');  // 42
+Result\err('error') |> Result\expect('値が必要です');  // RuntimeException
 ```
 
 ::: tip バリデーションに便利

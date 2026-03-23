@@ -357,6 +357,62 @@ Option\transpose(Option\some(Result\err('e')));  // Err('e')
 Option\transpose(Option\none());                  // Ok(None)
 ```
 
+## パイプライン演算子での使用 {#pipeline}
+
+PHP 8.5 のパイプライン演算子（`|>`）で使えるパイプライン関数が用意されています。
+各関数は `Closure` を返すため、`|>` で直接チェーンできます。
+
+### 基本的な使い方
+
+```php
+use EndouMame\PhpMonad\Option;
+
+$result = Option\fromValue($user)
+    |> Option\map(fn($u) => $u->getProfile())
+    |> Option\filter(fn($p) => $p->isActive())
+    |> Option\map(fn($p) => $p->getName())
+    |> Option\unwrapOr('Anonymous');
+```
+
+### Option から Result への変換
+
+```php
+use EndouMame\PhpMonad\Option;
+use EndouMame\PhpMonad\Result;
+
+$result = Option\fromValue($config['api_key'] ?? null)
+    |> Option\okOr('API キーが設定されていません')
+    |> Result\map(fn($key) => new ApiClient($key))
+    |> Result\unwrapOr(null);
+```
+
+### デバッグ
+
+```php
+$result = Option\some($data)
+    |> Option\inspect(fn($x) => var_dump($x))
+    |> Option\map(fn($x) => transform($x))
+    |> Option\inspect(fn($x) => var_dump($x))
+    |> Option\unwrapOr(null);
+```
+
+### 利用可能な関数
+
+| 関数 | 説明 |
+|------|------|
+| `Option\map($callback)` | Some の値を変換 |
+| `Option\andThen($callback)` | Option を返す関数でチェーン |
+| `Option\orElse($callback)` | None の場合の代替 |
+| `Option\filter($predicate)` | 条件でフィルタリング |
+| `Option\inspect($callback)` | 副作用を実行（デバッグ用） |
+| `Option\unwrapOr($default)` | 値またはデフォルト |
+| `Option\unwrapOrElse($callback)` | 値または遅延デフォルト |
+| `Option\expect($message)` | 値または例外 |
+| `Option\okOr($err)` | Result に変換 |
+| `Option\okOrElse($err)` | Result に遅延変換 |
+
+パイプライン関数の詳細は [API リファレンス](/api/functions#option-pipeline) も参照してください。
+
 ## イテレーション
 
 Option は `IteratorAggregate` を実装しているため、foreach で使用できます。
