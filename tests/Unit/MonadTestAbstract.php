@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace EndouMame\PhpMonad\Tests\Unit;
 
 use BadFunctionCallException;
+use EndouMame\PhpMonad\Monad;
+use EndouMame\PhpMonad\Tests\Assert;
+use EndouMame\PhpMonad\Tests\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
 use ReflectionClass;
 use ReflectionFunction;
 use ReflectionNamedType;
-use EndouMame\PhpMonad\Monad;
-use EndouMame\PhpMonad\Tests\Assert;
-use EndouMame\PhpMonad\Tests\TestCase;
 
 use function debug_backtrace;
 use function is_a;
@@ -26,11 +26,6 @@ use const DEBUG_BACKTRACE_IGNORE_ARGS;
 abstract class MonadTestAbstract extends TestCase
 {
     /**
-     * @return iterable<array{TMonad<string>}>
-     */
-    abstract public static function monadsProvider(): iterable;
-
-    /**
      * Test Monad laws
      *
      * @param TMonad<string> $subject
@@ -38,7 +33,7 @@ abstract class MonadTestAbstract extends TestCase
      */
     #[Test]
     #[TestDox('Monad laws')]
-    #[DataProvider('monadsProvider')]
+    #[DataProvider('provideMonadLawsCases')]
     public function monadLaws(Monad $subject): void
     {
         $monad = $subject::class;
@@ -64,6 +59,11 @@ abstract class MonadTestAbstract extends TestCase
             'Monad law - Associativity (m >>= f) >>= g == m >>= (\x -> f x >>= g)'
         );
     }
+
+    /**
+     * @return iterable<array{TMonad<string>}>
+     */
+    abstract public static function provideMonadLawsCases(): iterable;
 
     /**
      * @template T

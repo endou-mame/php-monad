@@ -359,6 +359,67 @@ $result->isErr();  // true
 $result->unwrapErr();  // ['エラー1', 'エラー2']
 ```
 
+## パイプライン演算子での使用 {#pipeline}
+
+PHP 8.5 のパイプライン演算子（`|>`）で使えるパイプライン関数が用意されています。
+各関数は `Closure` を返すため、`|>` で直接チェーンできます。
+
+### 基本的な使い方
+
+```php
+use EndouMame\PhpMonad\Result;
+
+$result = Result\fromThrowable(
+    fn() => json_decode($json, flags: JSON_THROW_ON_ERROR),
+    fn($e) => $e->getMessage()
+)
+    |> Result\map(fn($data) => $data['name'])
+    |> Result\inspect(fn($name) => logger()->info("名前: $name"))
+    |> Result\unwrapOr('Unknown');
+```
+
+### Railway Oriented Programming
+
+エラーが発生した時点で自動的にスキップされるため、正常系のロジックだけを記述できます。
+
+```php
+use EndouMame\PhpMonad\Result;
+
+$user = Result\ok($request->all())
+    |> Result\andThen(fn($data) => validateInput($data))
+    |> Result\andThen(fn($data) => createUser($data))
+    |> Result\andThen(fn($user) => sendWelcomeEmail($user))
+    |> Result\inspect(fn($user) => logger()->info("登録完了: {$user->id}"))
+    |> Result\inspectErr(fn($e) => logger()->error("登録失敗: $e"))
+    |> Result\unwrapOr(null);
+```
+
+### エラーの変換
+
+```php
+$result = fetchFromApi($id)
+    |> Result\mapErr(fn($e) => "API エラー: $e")
+    |> Result\orElse(fn($e) => fetchFromCache($id))
+    |> Result\map(fn($data) => new UserDTO($data))
+    |> Result\unwrapOr(UserDTO::default());
+```
+
+### 利用可能な関数
+
+| 関数 | 説明 |
+|------|------|
+| `Result\map($callback)` | Ok の値を変換 |
+| `Result\mapErr($callback)` | Err の値を変換 |
+| `Result\andThen($callback)` | Result を返す関数でチェーン |
+| `Result\orElse($callback)` | Err からリカバリ |
+| `Result\inspect($callback)` | Ok で副作用を実行 |
+| `Result\inspectErr($callback)` | Err で副作用を実行 |
+| `Result\unwrapOr($default)` | 値またはデフォルト |
+| `Result\unwrapOrElse($callback)` | 値または遅延デフォルト |
+| `Result\expect($message)` | 値または例外 |
+
+パイプライン関数の詳細は [API リファレンス](/api/functions#result-pipeline) も参照してください。
+
 ## イテレーション
 
 Result は `IteratorAggregate` を実装しているため、foreach で使用できます。

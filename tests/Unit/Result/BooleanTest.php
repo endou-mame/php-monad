@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace EndouMame\PhpMonad\Tests\Unit\Result;
 
+use EndouMame\PhpMonad\Result;
+use EndouMame\PhpMonad\Tests\Assert;
+use EndouMame\PhpMonad\Tests\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
-use EndouMame\PhpMonad\Result;
-use EndouMame\PhpMonad\Tests\Assert;
-use EndouMame\PhpMonad\Tests\TestCase;
 
 #[TestDox('Result - BooleanTest')]
 #[CoversClass(Result::class)]
@@ -57,6 +57,40 @@ final class BooleanTest extends TestCase
         if (!$left instanceof Result\Err) {
             Assert::assertSame($result, $right);
         }
+    }
+
+    /**
+     * @return iterable<array{
+     *   left:Result\Ok<string>|Result\Err<string>,
+     *   right:Result\Ok<string>|Result\Err<string>,
+     *   expected:Result\Ok<string>|Result\Err<string>
+     * }>
+     */
+    public static function andMatrix(): iterable
+    {
+        yield 'err-err' => [
+            'left' => Result\err('left'),
+            'right' => Result\err('left'),
+            'expected' => Result\err('left'),
+        ];
+
+        yield 'err-ok' => [
+            'left' => Result\err('left'),
+            'right' => Result\ok('right'),
+            'expected' => Result\err('left'),
+        ];
+
+        yield 'ok-ok' => [
+            'left' => Result\ok('left'),
+            'right' => Result\ok('right'),
+            'expected' => Result\ok('right'),
+        ];
+
+        yield 'ok-err' => [
+            'left' => Result\ok('left'),
+            'right' => Result\err('right'),
+            'expected' => Result\err('right'),
+        ];
     }
 
     /**
@@ -107,64 +141,29 @@ final class BooleanTest extends TestCase
      *   expected:Result\Ok<string>|Result\Err<string>
      * }>
      */
-    public static function andMatrix(): iterable
-    {
-
-        yield 'err-err' => [
-            'left'     => Result\err('left'),
-            'right'    => Result\err('left'),
-            'expected' => Result\err('left'),
-        ];
-
-        yield 'err-ok' => [
-            'left'     => Result\err('left'),
-            'right'    => Result\ok('right'),
-            'expected' => Result\err('left'),
-        ];
-
-        yield 'ok-ok' => [
-            'left'     => Result\ok('left'),
-            'right'    => Result\ok('right'),
-            'expected' => Result\ok('right'),
-        ];
-
-        yield 'ok-err' => [
-            'left'     => Result\ok('left'),
-            'right'    => Result\err('right'),
-            'expected' => Result\err('right'),
-        ];
-    }
-
-    /**
-     * @return iterable<array{
-     *   left:Result\Ok<string>|Result\Err<string>,
-     *   right:Result\Ok<string>|Result\Err<string>,
-     *   expected:Result\Ok<string>|Result\Err<string>
-     * }>
-     */
     public static function orMatrix(): iterable
     {
         yield 'err-err' => [
-            'left'     => Result\err('left'),
-            'right'    => Result\err('right'),
+            'left' => Result\err('left'),
+            'right' => Result\err('right'),
             'expected' => Result\err('right'),
         ];
 
         yield 'err-ok' => [
-            'left'     => Result\err('left'),
-            'right'    => Result\ok('right'),
+            'left' => Result\err('left'),
+            'right' => Result\ok('right'),
             'expected' => Result\ok('right'),
         ];
 
         yield 'ok-ok' => [
-            'left'     => Result\ok('left'),
-            'right'    => Result\ok('right'),
+            'left' => Result\ok('left'),
+            'right' => Result\ok('right'),
             'expected' => Result\ok('left'),
         ];
 
         yield 'ok-err' => [
-            'left'     => Result\ok('left'),
-            'right'    => Result\err('right'),
+            'left' => Result\ok('left'),
+            'right' => Result\err('right'),
             'expected' => Result\ok('left'),
         ];
     }

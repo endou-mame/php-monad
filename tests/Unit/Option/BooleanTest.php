@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace EndouMame\PhpMonad\Tests\Unit\Option;
 
+use EndouMame\PhpMonad\Option;
+use EndouMame\PhpMonad\Tests\Assert;
+use EndouMame\PhpMonad\Tests\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
-use EndouMame\PhpMonad\Option;
-use EndouMame\PhpMonad\Tests\Assert;
-use EndouMame\PhpMonad\Tests\TestCase;
 
 #[TestDox('Option - BooleanTest')]
 #[CoversClass(Option::class)]
@@ -55,6 +55,47 @@ final class BooleanTest extends TestCase
         Assert::assertSame($expectedCalls, $calls);
     }
 
+    // -------------------------------------------------------------------------
+    // Data provider
+    // -------------------------------------------------------------------------
+    /**
+     * @return iterable<array{
+     *   left:Option<string>,
+     *   right:Option<string>,
+     *   expected:Option<string>
+     * }>
+     */
+    public static function andMatrix(): iterable
+    {
+        $none = Option\none();
+        $left = Option\some('left');
+        $right = Option\some('right');
+
+        yield 'none-none' => [
+            'left' => $none,
+            'right' => $none,
+            'expected' => $none,
+        ];
+
+        yield 'none-some' => [
+            'left' => $none,
+            'right' => $right,
+            'expected' => $none,
+        ];
+
+        yield 'some-some' => [
+            'left' => $left,
+            'right' => $right,
+            'expected' => $right,
+        ];
+
+        yield 'some-none' => [
+            'left' => $left,
+            'right' => $none,
+            'expected' => $none,
+        ];
+    }
+
     /**
      * @template T
      * @param Option<T> $left
@@ -95,61 +136,6 @@ final class BooleanTest extends TestCase
     }
 
     /**
-     * @template T
-     * @param Option<T> $left
-     * @param Option<T> $right
-     * @param Option<T> $expected
-     */
-    #[Test]
-    #[TestDox('xor test')]
-    #[DataProvider('xorMatrix')]
-    public function xor(Option $left, Option $right, Option $expected): void
-    {
-        Assert::assertSame($expected, $left->xor($right));
-    }
-
-    // -------------------------------------------------------------------------
-    // Data provider
-    // -------------------------------------------------------------------------
-    /**
-     * @return iterable<array{
-     *   left:Option<string>,
-     *   right:Option<string>,
-     *   expected:Option<string>
-     * }>
-     */
-    public static function andMatrix(): iterable
-    {
-        $none = Option\none();
-        $left = Option\some('left');
-        $right = Option\some('right');
-
-        yield 'none-none' => [
-            'left'     => $none,
-            'right'    => $none,
-            'expected' => $none,
-        ];
-
-        yield 'none-some' => [
-            'left'     => $none,
-            'right'    => $right,
-            'expected' => $none,
-        ];
-
-        yield 'some-some' => [
-            'left'     => $left,
-            'right'    => $right,
-            'expected' => $right,
-        ];
-
-        yield 'some-none' => [
-            'left'     => $left,
-            'right'    => $none,
-            'expected' => $none,
-        ];
-    }
-
-    /**
      * @return iterable<array{
      *   left:Option<string>,
      *   right:Option<string>,
@@ -163,28 +149,42 @@ final class BooleanTest extends TestCase
         $right = Option\some('right');
 
         yield 'none-none' => [
-            'left'     => $none,
-            'right'    => $none,
+            'left' => $none,
+            'right' => $none,
             'expected' => $none,
         ];
 
         yield 'none-some' => [
-            'left'     => $none,
-            'right'    => $right,
+            'left' => $none,
+            'right' => $right,
             'expected' => $right,
         ];
 
         yield 'some-some' => [
-            'left'     => $left,
-            'right'    => $right,
+            'left' => $left,
+            'right' => $right,
             'expected' => $left,
         ];
 
         yield 'some-none' => [
-            'left'     => $left,
-            'right'    => $none,
+            'left' => $left,
+            'right' => $none,
             'expected' => $left,
         ];
+    }
+
+    /**
+     * @template T
+     * @param Option<T> $left
+     * @param Option<T> $right
+     * @param Option<T> $expected
+     */
+    #[Test]
+    #[TestDox('xor test')]
+    #[DataProvider('provideXorCases')]
+    public function xor(Option $left, Option $right, Option $expected): void
+    {
+        Assert::assertSame($expected, $left->xor($right));
     }
 
     /**
@@ -194,33 +194,33 @@ final class BooleanTest extends TestCase
      *   expected:Option<string>
      * }>
      */
-    public static function xorMatrix(): iterable
+    public static function provideXorCases(): iterable
     {
         $none = Option\none();
         $left = Option\some('left');
         $right = Option\some('right');
 
         yield 'none-none' => [
-            'left'     => $none,
-            'right'    => $none,
+            'left' => $none,
+            'right' => $none,
             'expected' => $none,
         ];
 
         yield 'none-some' => [
-            'left'     => $none,
-            'right'    => $right,
+            'left' => $none,
+            'right' => $right,
             'expected' => $right,
         ];
 
         yield 'some-some' => [
-            'left'     => $left,
-            'right'    => $right,
+            'left' => $left,
+            'right' => $right,
             'expected' => $none,
         ];
 
         yield 'some-none' => [
-            'left'     => $left,
-            'right'    => $none,
+            'left' => $left,
+            'right' => $none,
             'expected' => $left,
         ];
     }

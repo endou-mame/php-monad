@@ -404,3 +404,69 @@ $result = fetchFromPrimarySource($id)
     ->inspect(fn($data) => updateCache($id, $data))
     ->unwrap();
 ```
+
+## パイプライン演算子（PHP 8.5）での実践例 {#pipeline-operator}
+
+PHP 8.5 のパイプライン演算子 `|>` を使うと、Railway Oriented Programming のスタイルで処理を記述できます。
+
+### API レスポンスの処理
+
+```php
+use EndouMame\PhpMonad\Result;
+
+$user = Result\fromThrowable(
+    fn() => $httpClient->get("/users/$id"),
+    fn($e) => ['type' => 'network', 'message' => $e->getMessage()]
+)
+    |> Result\map(fn($res) => $res->getBody())
+    |> Result\andThen(fn($body) => Result\fromThrowable(
+        fn() => json_decode($body, true, flags: JSON_THROW_ON_ERROR),
+        fn($e) => ['type' => 'parse', 'message' => $e->getMessage()]
+    ))
+    |> Result\map(fn($data) => new UserDTO($data))
+    |> Result\inspect(fn($user) => cache()->set("user:$id", $user))
+    |> Result\inspectErr(fn($e) => logger()->error('ユーザー取得失敗', $e))
+    |> Result\unwrapOr(null);
+```
+
+### フォームバリデーション
+
+```php
+use EndouMame\PhpMonad\Result;
+
+$result = Result\ok($request->all())
+    |> Result\andThen(fn($data) => validateEmail($data))
+    |> Result\andThen(fn($data) => validatePassword($data))
+    |> Result\andThen(fn($data) => checkDuplicate($data))
+    |> Result\map(fn($data) => User::create($data))
+    |> Result\inspect(fn($user) => event(new UserRegistered($user)))
+    |> Result\mapErr(fn($e) => ['error' => $e]);
+```
+
+### Option から Result へのシームレスな変換
+
+```php
+use EndouMame\PhpMonad\Option;
+use EndouMame\PhpMonad\Result;
+
+// 設定値の取得 → バリデーション → 使用
+$timeout = Option\fromValue($config['timeout'] ?? null)
+    |> Option\filter(fn($t) => is_numeric($t))
+    |> Option\map(fn($t) => (int) $t)
+    |> Option\filter(fn($t) => $t > 0 && $t <= 300)
+    |> Option\okOr('タイムアウト値が不正です')
+    |> Result\inspect(fn($t) => logger()->debug("タイムアウト: {$t}秒"))
+    |> Result\unwrapOr(30);
+```
+
+### データベースからの取得とフォールバック
+
+```php
+use EndouMame\PhpMonad\Option;
+use EndouMame\PhpMonad\Result;
+
+$setting = $repository->findByKey('site.title')
+    |> Option\map(fn($s) => $s->getValue())
+    |> Option\filter(fn($v) => strlen($v) > 0)
+    |> Option\orElse(fn() => Option\fromValue(env('APP_NAME')))
+    |> Option\unwrapOr('My Application');

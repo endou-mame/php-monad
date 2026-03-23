@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace EndouMame\PhpMonad\Tests\Unit\Result;
 
+use EndouMame\PhpMonad\Result;
+use EndouMame\PhpMonad\Tests\Assert;
+use EndouMame\PhpMonad\Tests\TestCase;
 use Generator;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
-use EndouMame\PhpMonad\Result;
-use EndouMame\PhpMonad\Tests\Assert;
-use EndouMame\PhpMonad\Tests\TestCase;
 
 #[TestDox('Result - FlattenTest')]
 #[CoversClass(Result::class)]
@@ -23,16 +23,16 @@ final class FlattenTest extends TestCase
      */
     #[Test]
     #[TestDox('flatten test')]
-    #[DataProvider('flattenMatrix')]
+    #[DataProvider('provideFlattenCases')]
     public function flatten(Result $expected, Result $result): void
     {
         Assert::assertEquals($expected, $result2 = Result\flatten($result));
     }
 
     /**
-     * @return Generator<string|string|string,Result\Err<null>[]|(Result\Err<null>|Result\Ok<Result\Err<null>>)[]|(Result\Ok<null>|Result\Ok<Result\Ok<null>>)[],mixed,void>
+     * @return Generator<string,Result\Err<null>[]|(Result\Err<null>|Result\Ok<Result\Err<null>>)[]|(Result\Ok<null>|Result\Ok<Result\Ok<null>>)[],mixed,void>
      */
-    public static function flattenMatrix(): Generator
+    public static function provideFlattenCases(): iterable
     {
         yield 'err' => [Result\err(null), Result\err(null)];
 
