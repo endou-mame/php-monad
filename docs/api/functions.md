@@ -410,6 +410,8 @@ Result\err($value);
 Result\fromThrowable($closure, $errorHandler);
 Result\flatten($result);
 Result\transpose($result);
+Result\map_all($fn, ...$results);
+Result\flat_map_all($fn, ...$results);
 Result\combine(...$results);
 ```
 
@@ -533,6 +535,78 @@ use EndouMame\PhpMonad\Option;
 Result\transpose(Result\ok(Option\some(42)));   // Some(Ok(42))
 Result\transpose(Result\ok(Option\none()));     // None
 Result\transpose(Result\err('error'));          // Some(Err('error'))
+```
+
+### map_all
+
+複数の Result がすべて Ok の場合にコールバックを適用し、結果を Ok で返します。1 つでも Err があれば最初の Err を返します。
+
+```php
+/**
+ * @template E
+ * @param Closure $fn
+ * @param Result<mixed, E> ...$results
+ * @return Result<mixed, E>
+ */
+function map_all(Closure $fn, Result ...$results): Result
+```
+
+#### 使用例
+
+```php
+// すべて Ok の場合、コールバックの結果が Ok で返される
+$result = Result\map_all(
+    fn(int $a, int $b, int $c) => $a + $b + $c,
+    Result\ok(1),
+    Result\ok(2),
+    Result\ok(3),
+);
+// Ok(6)
+
+// 1 つでも Err があれば最初の Err を返す
+$result = Result\map_all(
+    fn(int $a, int $b) => $a + $b,
+    Result\ok(1),
+    Result\err('エラー1'),
+    Result\err('エラー2'),
+);
+// Err('エラー1')
+```
+
+### flat_map_all
+
+複数の Result がすべて Ok の場合に Result を返すコールバックを適用します。1 つでも Err があれば最初の Err を返します。
+
+`map_all` との違いは、コールバック自体が Result を返す点です。
+
+```php
+/**
+ * @template E
+ * @param Closure $fn
+ * @param Result<mixed, E> ...$results
+ * @return Result<mixed, E>
+ */
+function flat_map_all(Closure $fn, Result ...$results): Result
+```
+
+#### 使用例
+
+```php
+// コールバックが Ok を返す場合
+$result = Result\flat_map_all(
+    fn(int $a, int $b) => Result\ok($a + $b),
+    Result\ok(1),
+    Result\ok(2),
+);
+// Ok(3)
+
+// コールバックが Err を返す場合
+$result = Result\flat_map_all(
+    fn(int $a, int $b) => Result\err('計算エラー'),
+    Result\ok(1),
+    Result\ok(2),
+);
+// Err('計算エラー')
 ```
 
 ### combine
@@ -764,7 +838,7 @@ Result\err('error') |> Result\expect('値が必要です');  // RuntimeException
 ```
 
 ::: tip バリデーションに便利
-`combine` はフォームバリデーションで特に便利です。
+`combine` はフォームバリデーションで全エラーを収集するのに便利です。
 
 ```php
 $result = Result\combine(
@@ -777,5 +851,16 @@ if ($result->isErr()) {
     $errors = $result->unwrapErr();
     // 全てのエラーメッセージを表示
 }
+```
+
+バリデーション結果から値を合成したい場合は `map_all` / `flat_map_all` を使います。
+
+```php
+$user = Result\map_all(
+    fn(string $email, string $password, int $age) => new User($email, $password, $age),
+    validateEmail($email),
+    validatePassword($password),
+    validateAge($age),
+);
 ```
 :::
