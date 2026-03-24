@@ -111,7 +111,7 @@ interface Option extends Monad
      * @param  Closure(T): Option<U> $right
      * @return Option<U>
      */
-    public function andThen(Closure $right): self; /** @phpstan-ignore method.childParameterType */
+    public function andThen(Closure $right): self; // @phpstan-ignore method.childParameterType
 
     /**
      * @see https://doc.rust-lang.org/std/option/enum.Option.html#method.or

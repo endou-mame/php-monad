@@ -14,13 +14,13 @@ use EndouMame\PhpMonad\Result;
  * Usage with PHP 8.5 pipeline operator:
  *   $option |> Option\map(fn($x) => $x * 2)
  *
+ * @template T
  * @template U
- * @param  Closure(mixed): U                 $callback
- * @return Closure(Option<mixed>): Option<U>
+ * @param  Closure(T): U                 $callback
+ * @return Closure(Option<T>): Option<U>
  */
 function map(Closure $callback): Closure
 {
-    // @var Closure(Option<mixed>): Option<U>
     return static fn (Option $option): Option => $option->map($callback);
 }
 
@@ -30,13 +30,13 @@ function map(Closure $callback): Closure
  * Usage with PHP 8.5 pipeline operator:
  *   $option |> Option\andThen(fn($x) => findUser($x))
  *
+ * @template T
  * @template U
- * @param  Closure(mixed): Option<U>         $callback
- * @return Closure(Option<mixed>): Option<U>
+ * @param  Closure(T): Option<U>         $callback
+ * @return Closure(Option<T>): Option<U>
  */
 function andThen(Closure $callback): Closure
 {
-    // @var Closure(Option<mixed>): Option<U>
     return static fn (Option $option): Option => $option->andThen($callback);
 }
 
@@ -47,12 +47,11 @@ function andThen(Closure $callback): Closure
  *   $option |> Option\orElse(fn() => getDefault())
  *
  * @template U
- * @param  Closure(): Option<U>                  $callback
- * @return Closure(Option<mixed>): Option<mixed>
+ * @param  Closure(): Option<U>                    $callback
+ * @return Closure(Option<mixed>): Option<mixed|U>
  */
 function orElse(Closure $callback): Closure
 {
-    // @var Closure(Option<mixed>): Option<mixed>
     return static fn (Option $option): Option => $option->orElse($callback);
 }
 
@@ -62,12 +61,11 @@ function orElse(Closure $callback): Closure
  * Usage with PHP 8.5 pipeline operator:
  *   $option |> Option\filter(fn($x) => $x > 0)
  *
- * @param  Closure(mixed): bool                  $predicate
+ * @param  Closure(mixed): bool                    $predicate
  * @return Closure(Option<mixed>): Option<mixed>
  */
 function filter(Closure $predicate): Closure
 {
-    // @var Closure(Option<mixed>): Option<mixed>
     return static fn (Option $option): Option => $option->filter($predicate);
 }
 
@@ -77,12 +75,11 @@ function filter(Closure $predicate): Closure
  * Usage with PHP 8.5 pipeline operator:
  *   $option |> Option\inspect(fn($x) => logger()->info("Got: {$x}"))
  *
- * @param  Closure(mixed): mixed                 $callback
+ * @param  Closure(mixed): mixed                   $callback
  * @return Closure(Option<mixed>): Option<mixed>
  */
 function inspect(Closure $callback): Closure
 {
-    // @var Closure(Option<mixed>): Option<mixed>
     return static fn (Option $option): Option => $option->inspect($callback);
 }
 
@@ -93,7 +90,7 @@ function inspect(Closure $callback): Closure
  *   $option |> Option\unwrapOr(0)
  *
  * @template U
- * @param  U                             $default
+ * @param  U                               $default
  * @return Closure(Option<mixed>): mixed
  */
 function unwrapOr(mixed $default): Closure
@@ -107,7 +104,7 @@ function unwrapOr(mixed $default): Closure
  * Usage with PHP 8.5 pipeline operator:
  *   $option |> Option\unwrapOrElse(fn() => computeDefault())
  *
- * @param  Closure(): mixed              $callback
+ * @param  Closure(): mixed                $callback
  * @return Closure(Option<mixed>): mixed
  */
 function unwrapOrElse(Closure $callback): Closure
@@ -135,12 +132,11 @@ function expect(string $message): Closure
  *   $option |> Option\okOr('not found')
  *
  * @template E
- * @param  E                                        $err
+ * @param  E                                          $err
  * @return Closure(Option<mixed>): Result<mixed, E>
  */
 function okOr(mixed $err): Closure
 {
-    // @var Closure(Option<mixed>): Result<mixed, E>
     return static fn (Option $option): Result => $option->okOr($err);
 }
 
@@ -151,11 +147,10 @@ function okOr(mixed $err): Closure
  *   $option |> Option\okOrElse(fn() => new NotFoundException())
  *
  * @template E
- * @param  Closure(): E                             $err
+ * @param  Closure(): E                               $err
  * @return Closure(Option<mixed>): Result<mixed, E>
  */
 function okOrElse(Closure $err): Closure
 {
-    // @var Closure(Option<mixed>): Result<mixed, E>
     return static fn (Option $option): Result => $option->okOrElse($err);
 }

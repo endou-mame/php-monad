@@ -33,8 +33,6 @@ enum None implements Option
 
     /**
      * @return $this
-     */
-    /**
      * @phpstan-ignore method.childParameterType
      */
     #[Override]

@@ -44,16 +44,13 @@ final readonly class Ok implements Result
     /**
      * @template U
      * @template F
-     * @param  Closure(T) :Result<U, F> $right
+     * @param  Closure(T): Result<U, F> $right
      * @return Result<U, F>
-     */
-    /**
      * @phpstan-ignore method.childParameterType
      */
     #[Override]
     public function andThen(Closure $right): Result
     {
-        // @phpstan-ignore return.type
         return $right($this->value);
     }
 
