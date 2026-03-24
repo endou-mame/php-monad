@@ -40,7 +40,7 @@ final class OfTest extends TestCase
     #[DataProvider('fromValueMatrix')]
     public function tryOf(Option $expected, mixed $value, mixed $noneValue): void
     {
-        Assert::assertEquals($expected, Option\tryOf(static fn () => $value, $noneValue));
+        Assert::assertEquals($expected, Option\try_of(static fn () => $value, $noneValue));
     }
 
     #[Test]
@@ -55,8 +55,8 @@ final class OfTest extends TestCase
     #[TestDox('tryOfDefaultToNull test')]
     public function tryOfDefaultToNull(): void
     {
-        Assert::assertEquals(Option\none(), Option\tryOf(static fn () => null));
-        Assert::assertEquals(Option\some(1), Option\tryOf(static fn () => 1));
+        Assert::assertEquals(Option\none(), Option\try_of(static fn () => null));
+        Assert::assertEquals(Option\some(1), Option\try_of(static fn () => 1));
     }
 
     #[Test]
@@ -64,11 +64,11 @@ final class OfTest extends TestCase
     public function tryOfExeptions(): void
     {
         // @phpstan-ignore-next-line
-        Assert::assertEquals(Option\none(), Option\tryOf(static fn () => new DateTimeImmutable('nope')));
+        Assert::assertEquals(Option\none(), Option\try_of(static fn () => new DateTimeImmutable('nope')));
 
         try {
             // @phpstan-ignore-next-line
-            Option\tryOf(static fn () => 1 / 0);
+            Option\try_of(static fn () => 1 / 0);
             Assert::fail('An exception should have been thrown');
         } catch (DivisionByZeroError) {
         }

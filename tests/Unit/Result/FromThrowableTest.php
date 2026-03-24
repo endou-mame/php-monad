@@ -24,7 +24,7 @@ final class FromThrowableTest extends TestCase
         $callback = static fn () => 42;
         $errorHandler = static fn (Throwable $e) => $e->getMessage();
 
-        $result = Result\fromThrowable($callback, $errorHandler);
+        $result = Result\from_throwable($callback, $errorHandler);
 
         Assert::assertTrue($result->isOk());
         Assert::assertSame(42, $result->unwrap());
@@ -37,7 +37,7 @@ final class FromThrowableTest extends TestCase
         $callback = static fn () => throw new RuntimeException('Test exception');
         $errorHandler = static fn (Throwable $e) => $e->getMessage();
 
-        $result = Result\fromThrowable($callback, $errorHandler);
+        $result = Result\from_throwable($callback, $errorHandler);
 
         Assert::assertTrue($result->isErr());
         Assert::assertSame('Test exception', $result->unwrapErr());

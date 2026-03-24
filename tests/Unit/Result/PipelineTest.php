@@ -14,13 +14,13 @@ use RuntimeException;
 
 #[TestDox('Result - Pipeline Functions')]
 #[CoversFunction('EndouMame\PhpMonad\Result\map')]
-#[CoversFunction('EndouMame\PhpMonad\Result\mapErr')]
-#[CoversFunction('EndouMame\PhpMonad\Result\andThen')]
-#[CoversFunction('EndouMame\PhpMonad\Result\orElse')]
+#[CoversFunction('EndouMame\PhpMonad\Result\map_err')]
+#[CoversFunction('EndouMame\PhpMonad\Result\and_then')]
+#[CoversFunction('EndouMame\PhpMonad\Result\or_else')]
 #[CoversFunction('EndouMame\PhpMonad\Result\inspect')]
-#[CoversFunction('EndouMame\PhpMonad\Result\inspectErr')]
-#[CoversFunction('EndouMame\PhpMonad\Result\unwrapOr')]
-#[CoversFunction('EndouMame\PhpMonad\Result\unwrapOrElse')]
+#[CoversFunction('EndouMame\PhpMonad\Result\inspect_err')]
+#[CoversFunction('EndouMame\PhpMonad\Result\unwrap_or')]
+#[CoversFunction('EndouMame\PhpMonad\Result\unwrap_or_else')]
 #[CoversFunction('EndouMame\PhpMonad\Result\expect')]
 final class PipelineTest extends TestCase
 {
@@ -52,7 +52,7 @@ final class PipelineTest extends TestCase
     #[TestDox('mapErr transforms Err value')]
     public function mapErrTransforms(): void
     {
-        $fn = Result\mapErr(static fn (string $e): string => "prefix: {$e}");
+        $fn = Result\map_err(static fn (string $e): string => "prefix: {$e}");
 
         /** @var Result<int, string> $input */
         $input = Result\err('error');
@@ -64,7 +64,7 @@ final class PipelineTest extends TestCase
     #[TestDox('mapErr passes through Ok')]
     public function mapErrPassesOk(): void
     {
-        $fn = Result\mapErr(static fn (string $e): string => "prefix: {$e}");
+        $fn = Result\map_err(static fn (string $e): string => "prefix: {$e}");
 
         /** @var Result<int, string> $input */
         $input = Result\ok(42);
@@ -76,7 +76,7 @@ final class PipelineTest extends TestCase
     #[TestDox('andThen chains on Ok')]
     public function andThenOk(): void
     {
-        $fn = Result\andThen(static fn (int $x): Result\Ok => Result\ok($x + 1));
+        $fn = Result\and_then(static fn (int $x): Result\Ok => Result\ok($x + 1));
 
         /** @var Result<int, string> $input */
         $input = Result\ok(42);
@@ -88,7 +88,7 @@ final class PipelineTest extends TestCase
     #[TestDox('andThen passes through Err')]
     public function andThenErr(): void
     {
-        $fn = Result\andThen(static fn (int $x): Result\Ok => Result\ok($x + 1));
+        $fn = Result\and_then(static fn (int $x): Result\Ok => Result\ok($x + 1));
 
         /** @var Result<int, string> $input */
         $input = Result\err('error');
@@ -100,7 +100,7 @@ final class PipelineTest extends TestCase
     #[TestDox('orElse recovers from Err')]
     public function orElseErr(): void
     {
-        $fn = Result\orElse(static fn (string $e): Result\Ok => Result\ok(0));
+        $fn = Result\or_else(static fn (string $e): Result\Ok => Result\ok(0));
 
         /** @var Result<int, string> $input */
         $input = Result\err('error');
@@ -112,7 +112,7 @@ final class PipelineTest extends TestCase
     #[TestDox('orElse passes through Ok')]
     public function orElseOk(): void
     {
-        $fn = Result\orElse(static fn (string $e): Result\Ok => Result\ok(0));
+        $fn = Result\or_else(static fn (string $e): Result\Ok => Result\ok(0));
 
         /** @var Result<int, string> $input */
         $input = Result\ok(42);
@@ -161,7 +161,7 @@ final class PipelineTest extends TestCase
     public function inspectErrOnErr(): void
     {
         $calls = [];
-        $fn = Result\inspectErr(static function (string $e) use (&$calls): void {
+        $fn = Result\inspect_err(static function (string $e) use (&$calls): void {
             $calls[] = $e;
         });
 
@@ -179,7 +179,7 @@ final class PipelineTest extends TestCase
     public function inspectErrOnOk(): void
     {
         $calls = [];
-        $fn = Result\inspectErr(static function (mixed $e) use (&$calls): void {
+        $fn = Result\inspect_err(static function (mixed $e) use (&$calls): void {
             $calls[] = $e;
         });
 
@@ -196,7 +196,7 @@ final class PipelineTest extends TestCase
     #[TestDox('unwrapOr returns Ok value')]
     public function unwrapOrOk(): void
     {
-        $fn = Result\unwrapOr(0);
+        $fn = Result\unwrap_or(0);
 
         /** @var Result<int, string> $input */
         $input = Result\ok(42);
@@ -208,7 +208,7 @@ final class PipelineTest extends TestCase
     #[TestDox('unwrapOr returns default on Err')]
     public function unwrapOrErr(): void
     {
-        $fn = Result\unwrapOr(0);
+        $fn = Result\unwrap_or(0);
 
         /** @var Result<int, string> $input */
         $input = Result\err('error');
@@ -220,7 +220,7 @@ final class PipelineTest extends TestCase
     #[TestDox('unwrapOrElse returns Ok value')]
     public function unwrapOrElseOk(): void
     {
-        $fn = Result\unwrapOrElse(static fn (string $e): int => 0);
+        $fn = Result\unwrap_or_else(static fn (string $e): int => 0);
 
         /** @var Result<int, string> $input */
         $input = Result\ok(42);
@@ -232,7 +232,7 @@ final class PipelineTest extends TestCase
     #[TestDox('unwrapOrElse computes default on Err')]
     public function unwrapOrElseErr(): void
     {
-        $fn = Result\unwrapOrElse(static fn (string $e): string => "recovered: {$e}");
+        $fn = Result\unwrap_or_else(static fn (string $e): string => "recovered: {$e}");
 
         /** @var Result<int, string> $input */
         $input = Result\err('error');
