@@ -13,13 +13,13 @@ use EndouMame\PhpMonad\Result;
  * Usage with PHP 8.5 pipeline operator:
  *   $result |> Result\map(fn($x) => $x * 2)
  *
+ * @template T
  * @template U
- * @param  Closure(mixed): U                               $callback
- * @return Closure(Result<mixed, mixed>): Result<U, mixed>
+ * @param  Closure(T): U                          $callback
+ * @return Closure(Result<T, mixed>): Result<U, mixed>
  */
 function map(Closure $callback): Closure
 {
-    // @var Closure(Result<mixed, mixed>): Result<U, mixed>
     return static fn (Result $result): Result => $result->map($callback);
 }
 
@@ -29,13 +29,13 @@ function map(Closure $callback): Closure
  * Usage with PHP 8.5 pipeline operator:
  *   $result |> Result\mapErr(fn($e) => "Error: {$e}")
  *
+ * @template E
  * @template F
- * @param  Closure(mixed): F                               $callback
- * @return Closure(Result<mixed, mixed>): Result<mixed, F>
+ * @param  Closure(E): F                              $callback
+ * @return Closure(Result<mixed, E>): Result<mixed, F>
  */
 function mapErr(Closure $callback): Closure
 {
-    // @var Closure(Result<mixed, mixed>): Result<mixed, F>
     return static fn (Result $result): Result => $result->mapErr($callback);
 }
 
@@ -45,14 +45,14 @@ function mapErr(Closure $callback): Closure
  * Usage with PHP 8.5 pipeline operator:
  *   $result |> Result\andThen(fn($x) => validate($x))
  *
+ * @template T
  * @template U
  * @template F
- * @param  Closure(mixed): Result<U, F>                    $callback
- * @return Closure(Result<mixed, mixed>): Result<U, mixed>
+ * @param  Closure(T): Result<U, F>                    $callback
+ * @return Closure(Result<T, mixed>): Result<U, mixed>
  */
 function andThen(Closure $callback): Closure
 {
-    // @var Closure(Result<mixed, mixed>): Result<U, mixed>
     return static fn (Result $result): Result => $result->andThen($callback);
 }
 
@@ -62,13 +62,13 @@ function andThen(Closure $callback): Closure
  * Usage with PHP 8.5 pipeline operator:
  *   $result |> Result\orElse(fn($e) => recover($e))
  *
+ * @template E
  * @template F
- * @param  Closure(mixed): Result<mixed, F>                $callback
- * @return Closure(Result<mixed, mixed>): Result<mixed, F>
+ * @param  Closure(E): Result<mixed, F>                $callback
+ * @return Closure(Result<mixed, E>): Result<mixed, F>
  */
 function orElse(Closure $callback): Closure
 {
-    // @var Closure(Result<mixed, mixed>): Result<mixed, F>
     return static fn (Result $result): Result => $result->orElse($callback);
 }
 
@@ -78,12 +78,12 @@ function orElse(Closure $callback): Closure
  * Usage with PHP 8.5 pipeline operator:
  *   $result |> Result\inspect(fn($x) => logger()->info("Got: {$x}"))
  *
- * @param  Closure(mixed): mixed                               $callback
- * @return Closure(Result<mixed, mixed>): Result<mixed, mixed>
+ * @template T
+ * @param  Closure(T): mixed                               $callback
+ * @return Closure(Result<T, mixed>): Result<T, mixed>
  */
 function inspect(Closure $callback): Closure
 {
-    // @var Closure(Result<mixed, mixed>): Result<mixed, mixed>
     return static fn (Result $result): Result => $result->inspect($callback);
 }
 
@@ -93,12 +93,12 @@ function inspect(Closure $callback): Closure
  * Usage with PHP 8.5 pipeline operator:
  *   $result |> Result\inspectErr(fn($e) => logger()->error($e))
  *
- * @param  Closure(mixed): mixed                               $callback
- * @return Closure(Result<mixed, mixed>): Result<mixed, mixed>
+ * @template E
+ * @param  Closure(E): mixed                               $callback
+ * @return Closure(Result<mixed, E>): Result<mixed, E>
  */
 function inspectErr(Closure $callback): Closure
 {
-    // @var Closure(Result<mixed, mixed>): Result<mixed, mixed>
     return static fn (Result $result): Result => $result->inspectErr($callback);
 }
 
@@ -109,7 +109,7 @@ function inspectErr(Closure $callback): Closure
  *   $result |> Result\unwrapOr(0)
  *
  * @template U
- * @param  U                                    $default
+ * @param  U                              $default
  * @return Closure(Result<mixed, mixed>): mixed
  */
 function unwrapOr(mixed $default): Closure
@@ -123,8 +123,10 @@ function unwrapOr(mixed $default): Closure
  * Usage with PHP 8.5 pipeline operator:
  *   $result |> Result\unwrapOrElse(fn($e) => fallback($e))
  *
- * @param  Closure(mixed): mixed                $callback
- * @return Closure(Result<mixed, mixed>): mixed
+ * @template E
+ * @template U
+ * @param  Closure(E): U                 $callback
+ * @return Closure(Result<mixed, E>): mixed
  */
 function unwrapOrElse(Closure $callback): Closure
 {

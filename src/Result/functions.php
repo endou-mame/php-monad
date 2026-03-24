@@ -56,18 +56,22 @@ function fromThrowable(Closure $closure, Closure $errorHandler): Result
  *
  * @template T
  * @template E
- * @template E1 of E
- * @template E2 of E
- * @param  Result<Result<T, E1>, E2> $result
+ * @param  Result<Result<T, E>, E> $result
  * @return Result<T, E>
  */
 function flatten(Result $result): Result
 {
-    // @phpstan-ignore return.type
-    return $result->mapOrElse(
-        static fn (Result $r) => $r,
-        static fn (mixed $err) => Result\err($err),
-    );
+    if ($result->isErr()) {
+        /** @var Result<T, E> $err */
+        $err = $result;
+
+        return $err;
+    }
+
+    /** @var Result<T, E> $inner */
+    $inner = $result->unwrap();
+
+    return $inner;
 }
 
 /**
@@ -83,11 +87,27 @@ function flatten(Result $result): Result
  */
 function transpose(Result $result): Option
 {
-    // @phpstan-ignore return.type
-    return $result->mapOrElse(
-        static fn (Option $option) => $option->map(Result\ok(...)),
-        static fn () => Option\some(clone $result),
-    );
+    if ($result->isErr()) {
+        /** @var Option<Result<U, F>> $err */
+        $err = Option\some(clone $result);
+
+        return $err;
+    }
+
+    /** @var Option<U> $option */
+    $option = $result->unwrap();
+
+    if ($option->isNone()) {
+        /** @var Option<Result<U, F>> $none */
+        $none = Option\none();
+
+        return $none;
+    }
+
+    /** @var Option<Result<U, F>> $ok */
+    $ok = Option\some(Result\ok($option->unwrap()));
+
+    return $ok;
 }
 
 /**

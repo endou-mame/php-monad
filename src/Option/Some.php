@@ -41,8 +41,6 @@ final readonly class Some implements Option
      * @template U
      * @param  Closure(T): Option<U> $right
      * @return Option<U>
-     */
-    /**
      * @phpstan-ignore method.childParameterType
      */
     #[Override]

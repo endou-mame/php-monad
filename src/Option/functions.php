@@ -148,12 +148,17 @@ function ok_or(Option $option, mixed $error): Result
  */
 function traverse(Option $option, Closure $fn): Result
 {
-    // @phpstan-ignore return.type
-    return $option->mapOrElse(
-        /** @param T $value */
-        static fn (mixed $value): Result => $fn($value),
-        static fn (): Result => Result\ok(null),
-    );
+    if ($option->isNone()) {
+        /** @var Result<U|null, E> $result */
+        $result = Result\ok(null);
+
+        return $result;
+    }
+
+    /** @var Result<U|null, E> $result */
+    $result = $fn($option->unwrap());
+
+    return $result;
 }
 
 /**
@@ -171,9 +176,25 @@ function traverse(Option $option, Closure $fn): Result
  */
 function transpose(Option $option): Result
 {
-    // @phpstan-ignore-next-line
-    return $option->mapOrElse(
-        static fn (Result $result) => $result->map(Option\some(...)),
-        static fn () => Result\ok(Option\none()),
-    );
+    if ($option->isNone()) {
+        /** @var Result<Option<U>, E> $none */
+        $none = Result\ok(Option\none());
+
+        return $none;
+    }
+
+    /** @var Result<U, E> $inner */
+    $inner = $option->unwrap();
+
+    if ($inner->isErr()) {
+        /** @var Result<Option<U>, E> $err */
+        $err = $inner;
+
+        return $err;
+    }
+
+    /** @var Result<Option<U>, E> $ok */
+    $ok = Result\ok(Option\some($inner->unwrap()));
+
+    return $ok;
 }

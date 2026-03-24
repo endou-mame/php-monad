@@ -43,7 +43,11 @@ final readonly class Err implements Result
     }
 
     /**
-     * @phpstan-ignore method.childParameterType, missingType.generics
+     * @template U
+     * @template F
+     * @param  Closure(never): Result<U, F> $right
+     * @return Err<E>
+     * @phpstan-ignore method.childParameterType
      */
     #[Override]
     public function andThen(Closure $right): self
