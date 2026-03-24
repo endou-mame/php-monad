@@ -44,7 +44,7 @@ function none(): Option\None
  *
  * @return ($noneValue is null ? Option<U> : Option<U|NoneValue>)
  */
-function fromValue($value, mixed $noneValue = null): Option
+function from_value($value, mixed $noneValue = null): Option
 {
     return $value === $noneValue
         ? Option\none()
@@ -65,7 +65,7 @@ function fromValue($value, mixed $noneValue = null): Option
  */
 function of(callable $callback, mixed $noneValue = null): Option
 {
-    return Option\fromValue($callback(), $noneValue);
+    return Option\from_value($callback(), $noneValue);
 }
 
 /**
@@ -84,7 +84,7 @@ function of(callable $callback, mixed $noneValue = null): Option
  *
  * @throws Throwable
  */
-function tryOf(
+function try_of(
     callable $callback,
     mixed $noneValue = null,
     string $exceptionClass = Exception::class,
@@ -116,25 +116,6 @@ function flatten(Option $option): Option
 }
 
 /**
- * Convert an Option to a Result.
- *
- * Some($value) becomes ok($value).
- * None becomes err($error).
- *
- * @template T
- * @template E
- *
- * @param Option<T> $option
- * @param E         $error
- *
- * @return Result<T, E>
- */
-function ok_or(Option $option, mixed $error): Result
-{
-    return $option->okOr($error);
-}
-
-/**
  * Apply a function that returns Result if Some, or ok(null) if None.
  *
  * @template T
@@ -150,15 +131,11 @@ function traverse(Option $option, Closure $fn): Result
 {
     if ($option->isNone()) {
         /** @var Result<U|null, E> $result */
-        $result = Result\ok(null);
-
-        return $result;
+        return Result\ok(null);
     }
 
     /** @var Result<U|null, E> $result */
-    $result = $fn($option->unwrap());
-
-    return $result;
+    return $fn($option->unwrap());
 }
 
 /**
@@ -178,9 +155,7 @@ function transpose(Option $option): Result
 {
     if ($option->isNone()) {
         /** @var Result<Option<U>, E> $none */
-        $none = Result\ok(Option\none());
-
-        return $none;
+        return Result\ok(Option\none());
     }
 
     /** @var Result<U, E> $inner */
@@ -188,13 +163,9 @@ function transpose(Option $option): Result
 
     if ($inner->isErr()) {
         /** @var Result<Option<U>, E> $err */
-        $err = $inner;
-
-        return $err;
+        return $inner;
     }
 
     /** @var Result<Option<U>, E> $ok */
-    $ok = Result\ok(Option\some($inner->unwrap()));
-
-    return $ok;
+    return Result\ok(Option\some($inner->unwrap()));
 }

@@ -28,14 +28,14 @@ function map(Closure $callback): Closure
  * Pipeline function: Chains an Option-returning operation on Some value.
  *
  * Usage with PHP 8.5 pipeline operator:
- *   $option |> Option\andThen(fn($x) => findUser($x))
+ *   $option |> Option\and_then(fn($x) => findUser($x))
  *
  * @template T
  * @template U
  * @param  Closure(T): Option<U>         $callback
  * @return Closure(Option<T>): Option<U>
  */
-function andThen(Closure $callback): Closure
+function and_then(Closure $callback): Closure
 {
     return static fn (Option $option): Option => $option->andThen($callback);
 }
@@ -44,13 +44,13 @@ function andThen(Closure $callback): Closure
  * Pipeline function: Handles None by calling an Option-returning function.
  *
  * Usage with PHP 8.5 pipeline operator:
- *   $option |> Option\orElse(fn() => getDefault())
+ *   $option |> Option\or_else(fn() => getDefault())
  *
  * @template U
  * @param  Closure(): Option<U>                    $callback
  * @return Closure(Option<mixed>): Option<mixed|U>
  */
-function orElse(Closure $callback): Closure
+function or_else(Closure $callback): Closure
 {
     return static fn (Option $option): Option => $option->orElse($callback);
 }
@@ -61,7 +61,7 @@ function orElse(Closure $callback): Closure
  * Usage with PHP 8.5 pipeline operator:
  *   $option |> Option\filter(fn($x) => $x > 0)
  *
- * @param  Closure(mixed): bool                    $predicate
+ * @param  Closure(mixed): bool                  $predicate
  * @return Closure(Option<mixed>): Option<mixed>
  */
 function filter(Closure $predicate): Closure
@@ -75,7 +75,7 @@ function filter(Closure $predicate): Closure
  * Usage with PHP 8.5 pipeline operator:
  *   $option |> Option\inspect(fn($x) => logger()->info("Got: {$x}"))
  *
- * @param  Closure(mixed): mixed                   $callback
+ * @param  Closure(mixed): mixed                 $callback
  * @return Closure(Option<mixed>): Option<mixed>
  */
 function inspect(Closure $callback): Closure
@@ -87,13 +87,13 @@ function inspect(Closure $callback): Closure
  * Pipeline function: Unwraps the Some value or returns the default.
  *
  * Usage with PHP 8.5 pipeline operator:
- *   $option |> Option\unwrapOr(0)
+ *   $option |> Option\unwrap_or(0)
  *
  * @template U
- * @param  U                               $default
+ * @param  U                             $default
  * @return Closure(Option<mixed>): mixed
  */
-function unwrapOr(mixed $default): Closure
+function unwrap_or(mixed $default): Closure
 {
     return static fn (Option $option): mixed => $option->unwrapOr($default);
 }
@@ -102,12 +102,12 @@ function unwrapOr(mixed $default): Closure
  * Pipeline function: Unwraps the Some value or computes a default.
  *
  * Usage with PHP 8.5 pipeline operator:
- *   $option |> Option\unwrapOrElse(fn() => computeDefault())
+ *   $option |> Option\unwrap_or_else(fn() => computeDefault())
  *
- * @param  Closure(): mixed                $callback
+ * @param  Closure(): mixed              $callback
  * @return Closure(Option<mixed>): mixed
  */
-function unwrapOrElse(Closure $callback): Closure
+function unwrap_or_else(Closure $callback): Closure
 {
     return static fn (Option $option): mixed => $option->unwrapOrElse($callback);
 }
@@ -129,13 +129,13 @@ function expect(string $message): Closure
  * Pipeline function: Converts Option to Result with a fixed error value.
  *
  * Usage with PHP 8.5 pipeline operator:
- *   $option |> Option\okOr('not found')
+ *   $option |> Option\ok_or('not found')
  *
  * @template E
- * @param  E                                          $err
+ * @param  E                                        $err
  * @return Closure(Option<mixed>): Result<mixed, E>
  */
-function okOr(mixed $err): Closure
+function ok_or(mixed $err): Closure
 {
     return static fn (Option $option): Result => $option->okOr($err);
 }
@@ -144,13 +144,13 @@ function okOr(mixed $err): Closure
  * Pipeline function: Converts Option to Result with a lazy error value.
  *
  * Usage with PHP 8.5 pipeline operator:
- *   $option |> Option\okOrElse(fn() => new NotFoundException())
+ *   $option |> Option\ok_or_else(fn() => new NotFoundException())
  *
  * @template E
- * @param  Closure(): E                               $err
+ * @param  Closure(): E                             $err
  * @return Closure(Option<mixed>): Result<mixed, E>
  */
-function okOrElse(Closure $err): Closure
+function ok_or_else(Closure $err): Closure
 {
     return static fn (Option $option): Result => $option->okOrElse($err);
 }

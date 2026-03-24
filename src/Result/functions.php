@@ -42,7 +42,7 @@ function err(mixed $value): Result\Err
  * @param  Closure(Throwable): E $errorHandler
  * @return Result<T, E>
  */
-function fromThrowable(Closure $closure, Closure $errorHandler): Result
+function from_throwable(Closure $closure, Closure $errorHandler): Result
 {
     try {
         return Result\ok($closure());
@@ -63,15 +63,11 @@ function flatten(Result $result): Result
 {
     if ($result->isErr()) {
         /** @var Result<T, E> $err */
-        $err = $result;
-
-        return $err;
+        return $result;
     }
 
     /** @var Result<T, E> $inner */
-    $inner = $result->unwrap();
-
-    return $inner;
+    return $result->unwrap();
 }
 
 /**
@@ -89,9 +85,7 @@ function transpose(Result $result): Option
 {
     if ($result->isErr()) {
         /** @var Option<Result<U, F>> $err */
-        $err = Option\some(clone $result);
-
-        return $err;
+        return Option\some(clone $result);
     }
 
     /** @var Option<U> $option */
@@ -99,15 +93,11 @@ function transpose(Result $result): Option
 
     if ($option->isNone()) {
         /** @var Option<Result<U, F>> $none */
-        $none = Option\none();
-
-        return $none;
+        return Option\none();
     }
 
     /** @var Option<Result<U, F>> $ok */
-    $ok = Option\some(Result\ok($option->unwrap()));
-
-    return $ok;
+    return Option\some(Result\ok($option->unwrap()));
 }
 
 /**

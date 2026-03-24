@@ -79,16 +79,16 @@ use EndouMame\PhpMonad\Result;
 // Option
 Option\some(42);
 Option\none();
-Option\fromValue($value);
+Option\from_value($value);
 Option\of($callback);
-Option\tryOf($callback, null, Exception::class);
+Option\try_of($callback, null, Exception::class);
 Option\flatten($nested);
 Option\transpose($optionOfResult);
 
 // Result
 Result\ok(42);
 Result\err('error');
-Result\fromThrowable($closure, $errorHandler);
+Result\from_throwable($closure, $errorHandler);
 Result\flatten($nested);
 Result\transpose($resultOfOption);
 Result\combine(...$results);

@@ -15,15 +15,15 @@ use RuntimeException;
 
 #[TestDox('Option - Pipeline Functions')]
 #[CoversFunction('EndouMame\PhpMonad\Option\map')]
-#[CoversFunction('EndouMame\PhpMonad\Option\andThen')]
-#[CoversFunction('EndouMame\PhpMonad\Option\orElse')]
+#[CoversFunction('EndouMame\PhpMonad\Option\and_then')]
+#[CoversFunction('EndouMame\PhpMonad\Option\or_else')]
 #[CoversFunction('EndouMame\PhpMonad\Option\filter')]
 #[CoversFunction('EndouMame\PhpMonad\Option\inspect')]
-#[CoversFunction('EndouMame\PhpMonad\Option\unwrapOr')]
-#[CoversFunction('EndouMame\PhpMonad\Option\unwrapOrElse')]
+#[CoversFunction('EndouMame\PhpMonad\Option\unwrap_or')]
+#[CoversFunction('EndouMame\PhpMonad\Option\unwrap_or_else')]
 #[CoversFunction('EndouMame\PhpMonad\Option\expect')]
-#[CoversFunction('EndouMame\PhpMonad\Option\okOr')]
-#[CoversFunction('EndouMame\PhpMonad\Option\okOrElse')]
+#[CoversFunction('EndouMame\PhpMonad\Option\ok_or')]
+#[CoversFunction('EndouMame\PhpMonad\Option\ok_or_else')]
 final class PipelineTest extends TestCase
 {
     #[Test]
@@ -54,7 +54,7 @@ final class PipelineTest extends TestCase
     #[TestDox('andThen chains on Some')]
     public function andThenSome(): void
     {
-        $fn = Option\andThen(static fn (int $x): Option\Some => Option\some($x + 1));
+        $fn = Option\and_then(static fn (int $x): Option\Some => Option\some($x + 1));
 
         /** @var Option<int> $input */
         $input = Option\some(42);
@@ -66,7 +66,7 @@ final class PipelineTest extends TestCase
     #[TestDox('andThen passes through None')]
     public function andThenNone(): void
     {
-        $fn = Option\andThen(static fn (int $x): Option\Some => Option\some($x + 1));
+        $fn = Option\and_then(static fn (int $x): Option\Some => Option\some($x + 1));
 
         /** @var Option<int> $input */
         $input = Option\none();
@@ -78,7 +78,7 @@ final class PipelineTest extends TestCase
     #[TestDox('orElse provides alternative on None')]
     public function orElseNone(): void
     {
-        $fn = Option\orElse(static fn (): Option\Some => Option\some(0));
+        $fn = Option\or_else(static fn (): Option\Some => Option\some(0));
 
         /** @var Option<int> $input */
         $input = Option\none();
@@ -90,7 +90,7 @@ final class PipelineTest extends TestCase
     #[TestDox('orElse passes through Some')]
     public function orElseSome(): void
     {
-        $fn = Option\orElse(static fn (): Option\Some => Option\some(0));
+        $fn = Option\or_else(static fn (): Option\Some => Option\some(0));
 
         /** @var Option<int> $input */
         $input = Option\some(42);
@@ -174,7 +174,7 @@ final class PipelineTest extends TestCase
     #[TestDox('unwrapOr returns Some value')]
     public function unwrapOrSome(): void
     {
-        $fn = Option\unwrapOr(0);
+        $fn = Option\unwrap_or(0);
 
         /** @var Option<int> $input */
         $input = Option\some(42);
@@ -186,7 +186,7 @@ final class PipelineTest extends TestCase
     #[TestDox('unwrapOr returns default on None')]
     public function unwrapOrNone(): void
     {
-        $fn = Option\unwrapOr(0);
+        $fn = Option\unwrap_or(0);
 
         /** @var Option<int> $input */
         $input = Option\none();
@@ -198,7 +198,7 @@ final class PipelineTest extends TestCase
     #[TestDox('unwrapOrElse returns Some value')]
     public function unwrapOrElseSome(): void
     {
-        $fn = Option\unwrapOrElse(static fn (): int => 0);
+        $fn = Option\unwrap_or_else(static fn (): int => 0);
 
         /** @var Option<int> $input */
         $input = Option\some(42);
@@ -210,7 +210,7 @@ final class PipelineTest extends TestCase
     #[TestDox('unwrapOrElse computes default on None')]
     public function unwrapOrElseNone(): void
     {
-        $fn = Option\unwrapOrElse(static fn (): int => 99);
+        $fn = Option\unwrap_or_else(static fn (): int => 99);
 
         /** @var Option<int> $input */
         $input = Option\none();
@@ -248,7 +248,7 @@ final class PipelineTest extends TestCase
     #[TestDox('okOr converts Some to Ok')]
     public function okOrSome(): void
     {
-        $fn = Option\okOr('not found');
+        $fn = Option\ok_or('not found');
 
         /** @var Option<int> $input */
         $input = Option\some(42);
@@ -260,7 +260,7 @@ final class PipelineTest extends TestCase
     #[TestDox('okOr converts None to Err')]
     public function okOrNone(): void
     {
-        $fn = Option\okOr('not found');
+        $fn = Option\ok_or('not found');
 
         /** @var Option<int> $input */
         $input = Option\none();
@@ -272,7 +272,7 @@ final class PipelineTest extends TestCase
     #[TestDox('okOrElse converts Some to Ok')]
     public function okOrElseSome(): void
     {
-        $fn = Option\okOrElse(static fn (): string => 'not found');
+        $fn = Option\ok_or_else(static fn (): string => 'not found');
 
         /** @var Option<int> $input */
         $input = Option\some(42);
@@ -284,7 +284,7 @@ final class PipelineTest extends TestCase
     #[TestDox('okOrElse converts None to Err with lazy value')]
     public function okOrElseNone(): void
     {
-        $fn = Option\okOrElse(static fn (): string => 'not found');
+        $fn = Option\ok_or_else(static fn (): string => 'not found');
 
         /** @var Option<int> $input */
         $input = Option\none();

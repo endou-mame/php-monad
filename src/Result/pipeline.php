@@ -15,7 +15,7 @@ use EndouMame\PhpMonad\Result;
  *
  * @template T
  * @template U
- * @param  Closure(T): U                          $callback
+ * @param  Closure(T): U                               $callback
  * @return Closure(Result<T, mixed>): Result<U, mixed>
  */
 function map(Closure $callback): Closure
@@ -27,14 +27,14 @@ function map(Closure $callback): Closure
  * Pipeline function: Maps the Err value using the callback.
  *
  * Usage with PHP 8.5 pipeline operator:
- *   $result |> Result\mapErr(fn($e) => "Error: {$e}")
+ *   $result |> Result\map_err(fn($e) => "Error: {$e}")
  *
  * @template E
  * @template F
- * @param  Closure(E): F                              $callback
+ * @param  Closure(E): F                               $callback
  * @return Closure(Result<mixed, E>): Result<mixed, F>
  */
-function mapErr(Closure $callback): Closure
+function map_err(Closure $callback): Closure
 {
     return static fn (Result $result): Result => $result->mapErr($callback);
 }
@@ -43,7 +43,7 @@ function mapErr(Closure $callback): Closure
  * Pipeline function: Chains a Result-returning operation on Ok value.
  *
  * Usage with PHP 8.5 pipeline operator:
- *   $result |> Result\andThen(fn($x) => validate($x))
+ *   $result |> Result\and_then(fn($x) => validate($x))
  *
  * @template T
  * @template U
@@ -51,7 +51,7 @@ function mapErr(Closure $callback): Closure
  * @param  Closure(T): Result<U, F>                    $callback
  * @return Closure(Result<T, mixed>): Result<U, mixed>
  */
-function andThen(Closure $callback): Closure
+function and_then(Closure $callback): Closure
 {
     return static fn (Result $result): Result => $result->andThen($callback);
 }
@@ -60,14 +60,14 @@ function andThen(Closure $callback): Closure
  * Pipeline function: Handles Err by calling a Result-returning function.
  *
  * Usage with PHP 8.5 pipeline operator:
- *   $result |> Result\orElse(fn($e) => recover($e))
+ *   $result |> Result\or_else(fn($e) => recover($e))
  *
  * @template E
  * @template F
  * @param  Closure(E): Result<mixed, F>                $callback
  * @return Closure(Result<mixed, E>): Result<mixed, F>
  */
-function orElse(Closure $callback): Closure
+function or_else(Closure $callback): Closure
 {
     return static fn (Result $result): Result => $result->orElse($callback);
 }
@@ -79,7 +79,7 @@ function orElse(Closure $callback): Closure
  *   $result |> Result\inspect(fn($x) => logger()->info("Got: {$x}"))
  *
  * @template T
- * @param  Closure(T): mixed                               $callback
+ * @param  Closure(T): mixed                           $callback
  * @return Closure(Result<T, mixed>): Result<T, mixed>
  */
 function inspect(Closure $callback): Closure
@@ -91,13 +91,13 @@ function inspect(Closure $callback): Closure
  * Pipeline function: Performs a side-effect on Err value, passing through the Result.
  *
  * Usage with PHP 8.5 pipeline operator:
- *   $result |> Result\inspectErr(fn($e) => logger()->error($e))
+ *   $result |> Result\inspect_err(fn($e) => logger()->error($e))
  *
  * @template E
- * @param  Closure(E): mixed                               $callback
+ * @param  Closure(E): mixed                           $callback
  * @return Closure(Result<mixed, E>): Result<mixed, E>
  */
-function inspectErr(Closure $callback): Closure
+function inspect_err(Closure $callback): Closure
 {
     return static fn (Result $result): Result => $result->inspectErr($callback);
 }
@@ -106,13 +106,13 @@ function inspectErr(Closure $callback): Closure
  * Pipeline function: Unwraps the Ok value or returns the default.
  *
  * Usage with PHP 8.5 pipeline operator:
- *   $result |> Result\unwrapOr(0)
+ *   $result |> Result\unwrap_or(0)
  *
  * @template U
- * @param  U                              $default
+ * @param  U                                    $default
  * @return Closure(Result<mixed, mixed>): mixed
  */
-function unwrapOr(mixed $default): Closure
+function unwrap_or(mixed $default): Closure
 {
     return static fn (Result $result): mixed => $result->unwrapOr($default);
 }
@@ -121,14 +121,14 @@ function unwrapOr(mixed $default): Closure
  * Pipeline function: Unwraps the Ok value or computes a default from the Err.
  *
  * Usage with PHP 8.5 pipeline operator:
- *   $result |> Result\unwrapOrElse(fn($e) => fallback($e))
+ *   $result |> Result\unwrap_or_else(fn($e) => fallback($e))
  *
  * @template E
  * @template U
- * @param  Closure(E): U                 $callback
+ * @param  Closure(E): U                    $callback
  * @return Closure(Result<mixed, E>): mixed
  */
-function unwrapOrElse(Closure $callback): Closure
+function unwrap_or_else(Closure $callback): Closure
 {
     return static fn (Result $result): mixed => $result->unwrapOrElse($callback);
 }

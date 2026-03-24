@@ -27,14 +27,14 @@ final class FromValueTest extends TestCase
     #[DataProvider('fromValueMatrix')]
     public function fromValue(Option $expected, mixed $value, mixed $noneValue): void
     {
-        Assert::assertEquals($expected, Option\fromValue($value, $noneValue));
+        Assert::assertEquals($expected, Option\from_value($value, $noneValue));
     }
 
     #[Test]
     #[TestDox('fromValueDefaultToNull test')]
     public function fromValueDefaultToNull(): void
     {
-        Assert::assertEquals(Option\none(), Option\fromValue(null));
-        Assert::assertEquals(Option\some(1), Option\fromValue(1));
+        Assert::assertEquals(Option\none(), Option\from_value(null));
+        Assert::assertEquals(Option\some(1), Option\from_value(1));
     }
 }
