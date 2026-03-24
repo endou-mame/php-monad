@@ -336,6 +336,45 @@ Result\transpose(Result\ok(Option\none()));     // None
 Result\transpose(Result\err('error'));          // Some(Err('error'))
 ```
 
+### map_all / flat_map_all
+
+複数の独立した Result を合成し、すべて Ok の場合にコールバックを適用します。関数型プログラミングにおける Applicative Functor パターンに相当します。
+
+```php
+use EndouMame\PhpMonad\Result;
+
+// map_all: コールバックの戻り値を Ok でラップ
+$title = TaskTitle::create($command->title);         // Result<TaskTitle, string>
+$description = TaskDescription::create($command->description);  // Result<TaskDescription, string>
+
+$task = Result\map_all(
+    fn(TaskTitle $t, TaskDescription $d) => new TaskDTO($t, $d),
+    $title,
+    $description,
+);
+// すべて Ok → Ok(TaskDTO)
+// どれか Err → 最初の Err を返す
+
+// flat_map_all: コールバック自体が Result を返す場合
+$task = Result\flat_map_all(
+    fn(TaskTitle $t, TaskDescription $d) => TodoTask::create($t, $d),
+    $title,
+    $description,
+);
+```
+
+`andThen` のネストが不要になり、独立した Result の合成がフラットに記述できます。
+
+::: tip combine との違い
+`combine` はすべてのエラーを収集しますが、成功時の値の合成手段を提供しません。`map_all` / `flat_map_all` は成功時に任意の関数を適用できます。
+
+| 関数 | 成功時 | 失敗時 |
+|------|--------|--------|
+| `map_all` | コールバックの結果を Ok でラップ | 最初の Err を返す |
+| `flat_map_all` | コールバックの Result をそのまま返す | 最初の Err を返す |
+| `combine` | `Ok(true)` を返す | 全エラーをリストで返す |
+:::
+
 ### combine
 
 複数の Result を検証し、全て成功なら Ok、1 つでも失敗なら全エラーを Err で返します。
@@ -481,7 +520,7 @@ function validateName(string $name): Result {
     return Result\ok($name);
 }
 
-// 複数のバリデーションを結合
+// 複数のバリデーションを結合（全エラーを収集）
 $result = Result\combine(
     validateAge($age),
     validateName($name)
@@ -491,6 +530,14 @@ if ($result->isErr()) {
     $errors = $result->unwrapErr();
     // ['年齢は 0 以上である必要があります', '名前は必須です']
 }
+
+// 複数のバリデーション結果から値を合成
+$user = Result\map_all(
+    fn(int $age, string $name) => new User($name, $age),
+    validateAge($age),
+    validateName($name),
+);
+// すべて Ok → Ok(User)、最初の Err で短絡
 ```
 
 ### エラーの変換
