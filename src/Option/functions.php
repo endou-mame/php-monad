@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EndouMame\PhpMonad\Option;
 
+use Closure;
 use EndouMame\PhpMonad\Option;
 use EndouMame\PhpMonad\Result;
 use Exception;
@@ -112,6 +113,47 @@ function flatten(Option $option): Option
     return $option instanceof Option\None
         ? $option
         : $option->unwrap();
+}
+
+/**
+ * Convert an Option to a Result.
+ *
+ * Some($value) becomes ok($value).
+ * None becomes err($error).
+ *
+ * @template T
+ * @template E
+ *
+ * @param Option<T> $option
+ * @param E         $error
+ *
+ * @return Result<T, E>
+ */
+function ok_or(Option $option, mixed $error): Result
+{
+    return $option->okOr($error);
+}
+
+/**
+ * Apply a function that returns Result if Some, or ok(null) if None.
+ *
+ * @template T
+ * @template U
+ * @template E
+ *
+ * @param Option<T>                  $option
+ * @param (Closure(T): Result<U, E>) $fn
+ *
+ * @return Result<U|null, E>
+ */
+function traverse(Option $option, Closure $fn): Result
+{
+    // @phpstan-ignore return.type
+    return $option->mapOrElse(
+        /** @param T $value */
+        static fn (mixed $value): Result => $fn($value),
+        static fn (): Result => Result\ok(null),
+    );
 }
 
 /**
