@@ -129,57 +129,6 @@ function expect(string $message): Closure
 }
 
 /**
- * Curried form of traverse for use with the pipeline operator (|>).
- *
- * Usage with PHP 8.5 pipeline operator:
- *   $option |> Option\traverse_with(fn($x) => validate($x))
- *
- * @template T
- * @template U
- * @template E
- *
- * @param (Closure(T): Result<U, E>) $fn
- *
- * @return (Closure(Option<T>): Result<U|null, E>)
- */
-function traverse_with(Closure $fn): Closure
-{
-    return static fn (Option $option): Result => traverse($option, $fn);
-}
-
-/**
- * Conditionally apply a bind operation based on an Option value.
- *
- * If Some, applies $fn(unwrapped value) which must return a Closure
- * suitable for andThen(). If None, returns an identity function.
- *
- * Usage with PHP 8.5 pipeline operator:
- *   $result |> Option\apply_if_some($option, fn($v) => fn($x) => doSomething($v, $x))
- *
- * @template T
- * @template V
- * @template W
- * @template E
- *
- * @param Option<T>                                $option
- * @param (Closure(T): (Closure(V): Result<W, E>)) $fn
- *
- * @return (Closure(Result<V, E>): Result<V|W, E>)
- */
-function apply_if_some(Option $option, Closure $fn): Closure
-{
-    // @phpstan-ignore return.type
-    return $option->mapOrElse(
-        static function (mixed $value) use ($fn): Closure {
-            $binding = $fn($value);
-
-            return \EndouMame\PhpMonad\Result\andThen($binding);
-        },
-        static fn (): Closure => static fn (Result $result): Result => $result,
-    );
-}
-
-/**
  * Pipeline function: Converts Option to Result with a fixed error value.
  *
  * Usage with PHP 8.5 pipeline operator:
