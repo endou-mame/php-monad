@@ -91,6 +91,50 @@ function transpose(Result $result): Option
 }
 
 /**
+ * Applies a callback to the values of multiple `Result`s if all are `Ok`.
+ *
+ * Returns the first `Err` encountered, or `Ok` wrapping the callback's return value.
+ *
+ * @template E
+ * @param  Result<covariant mixed, covariant E> ...$results
+ * @return Result<mixed, E>
+ */
+function map_all(Closure $fn, Result ...$results): Result
+{
+    $values = [];
+    foreach ($results as $result) {
+        if ($result->isErr()) {
+            return $result;
+        }
+        $values[] = $result->unwrap();
+    }
+
+    return ok($fn(...$values));
+}
+
+/**
+ * Applies a `Result`-returning callback to the values of multiple `Result`s if all are `Ok`.
+ *
+ * Returns the first `Err` encountered, or the `Result` returned by the callback.
+ *
+ * @template E
+ * @param  Result<covariant mixed, covariant E> ...$results
+ * @return Result<mixed, E>
+ */
+function flat_map_all(Closure $fn, Result ...$results): Result
+{
+    $values = [];
+    foreach ($results as $result) {
+        if ($result->isErr()) {
+            return $result;
+        }
+        $values[] = $result->unwrap();
+    }
+
+    return $fn(...$values);
+}
+
+/**
  * @template T
  * @template E
  * @param  Result<covariant T, covariant E> ...$results
